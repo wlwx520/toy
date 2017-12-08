@@ -42,7 +42,7 @@ public class FrozenBox<T> {
 		@Override
 		public void run() {
 			this.datas.remove(data);
-		}
+		} 
 	}
 
 	@FunctionalInterface
