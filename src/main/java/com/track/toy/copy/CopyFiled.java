@@ -1,14 +1,16 @@
-package com.track.toy.util.copy;
+package com.track.toy.copy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.List;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CopyList {
-    Class<? extends List> value();
+public @interface CopyFiled {
+    String[] value() default {};
+
+    Class<? extends CopyCustom> handler() default CopyCustom.DefaultCopyCustom.class;
+
     String[] key() default {};
 }

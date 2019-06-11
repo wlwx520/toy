@@ -1,14 +1,12 @@
-package com.track.toy.util.copy;
+package com.track.toy.copy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Set;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CopySet {
-    Class<? extends Set> value();
+public @interface CopySkip {
     String[] key() default {};
 }

@@ -140,7 +140,7 @@ public class FileHelper {
 		return realPath;
 	}
 
-	public static String FileToBase64(File file) {
+	public static String fileToBase64(File file) {
 		try (FileInputStream inputFile = new FileInputStream(file);) {
 			byte[] buffer = new byte[(int) file.length()];
 			inputFile.read(buffer);

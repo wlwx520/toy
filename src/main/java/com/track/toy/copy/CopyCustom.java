@@ -1,4 +1,4 @@
-package com.track.toy.util.copy;
+package com.track.toy.copy;
 
 public interface CopyCustom<T> {
     T copyCustom(T t);
