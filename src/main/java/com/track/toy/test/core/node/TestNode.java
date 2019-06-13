@@ -35,7 +35,7 @@ public abstract class TestNode {
     //锁，用于节点在测试图中的异步任务
     protected Object lock = new Object();
     //是否正在测试，避免异步测试任务的重复开启测试
-    protected boolean isTesting = false;
+    protected volatile boolean isTesting = false;
 
     //节点的具体测试方法，从input获取output
     protected abstract void testSelf();
@@ -85,6 +85,9 @@ public abstract class TestNode {
         HierarchyNode<TestNode> hierarchy = graph.getPlusHandler().getHierarchy(name, 0, 1);
         Set<HierarchyNode<TestNode>> targets = hierarchy.getTargets();
         targets.forEach(targetTestNode -> {
+            if (!Executors.isTesting) {
+                return;
+            }
             Executors.execute(() -> {
                 targetTestNode.getData().doTest();
                 targetTestNode.getData().lock.notifyAll();

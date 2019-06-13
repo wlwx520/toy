@@ -19,6 +19,7 @@ public class Executors {
 
     //关闭测试，停止所有线程池的加入
     public static void stopTest() {
+        isTesting = false;
         EXECUTOR_SERVICE.shutdown();
     }
 }
