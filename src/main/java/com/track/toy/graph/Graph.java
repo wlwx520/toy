@@ -1,6 +1,6 @@
 package com.track.toy.graph;
 
-import com.demo.util.copy.BeanCopyUtil;
+import com.track.toy.copy.BeanCopyUtil;
 
 import java.util.HashMap;
 import java.util.Map;
