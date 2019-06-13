@@ -12,14 +12,17 @@ public class ActionInfoExpression {
         //$ActionInfo{1234#系统}
         Constant.EXPRESSION_HELPER.addFilter("$ActionInfo", (origin, objects) -> {
             ActionInfo actionInfo = new ActionInfo();
-            String[] split = origin.split("#");
-            if (split != null && split.length >= 2) {
-                try {
+            try {
+                String[] split = origin.split("#");
+                if (split != null && split.length >= 1) {
+
                     actionInfo.setUserId(Integer.valueOf(split[0]));
-                    actionInfo.setNickname(split[1]);
-                } catch (Exception e) {
-                    log.info("expressionFilter to actionInfo error.", e);
                 }
+                if (split != null && split.length >= 2) {
+                    actionInfo.setNickname(split[1]);
+                }
+            } catch (Exception e) {
+                log.info("expressionFilter to actionInfo error.", e);
             }
             return JSON.toJSONString(actionInfo);
         });
