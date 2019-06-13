@@ -1,5 +1,8 @@
 package com.track.toy.graph;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class NodeHandler<T, R extends Comparable<R>, K, E> {
     private Graph<T, R, K, E> graph;
 
@@ -25,5 +28,9 @@ public class NodeHandler<T, R extends Comparable<R>, K, E> {
 
     public K getNodeKey(T data) {
         return graph.getNodeKey(data);
+    }
+
+    public List<T> getAllNode() {
+        return graph.allNodes.values().stream().map(Node::getData).collect(Collectors.toList());
     }
 }

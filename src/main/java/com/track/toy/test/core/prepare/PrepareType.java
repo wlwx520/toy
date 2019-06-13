@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+//开启测试节点的条件
 @Slf4j
 public enum PrepareType implements ICheckPrepared {
     ALL {

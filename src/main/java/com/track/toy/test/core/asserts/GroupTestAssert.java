@@ -13,6 +13,7 @@ public class GroupTestAssert extends TestAssert {
     private boolean isAnd = true;
     private List<TestAssert> children = new ArrayList<>();
 
+    //组合断言，有或和且的选择
     public final boolean asserts(TestNode testNode) {
         Stream<TestAssert> stream = children.stream();
         Predicate<TestAssert> predicate = child -> child.asserts(testNode);

@@ -5,6 +5,7 @@ import com.track.toy.helper.HttpHelper;
 import com.track.toy.test.core.common.Constant;
 import lombok.Data;
 
+//http-post的方式测试节点
 @Data
 public class HttpTestNode extends TestNode {
     private String url;
