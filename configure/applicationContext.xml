@@ -1,0 +1,8 @@
+<context>
+    <properties>
+        <server-ip>192.168.0.0</server-ip>
+        <common-url>/tradewebpc/api</common-url>
+    </properties>
+
+    <test-graph path="test_recmd/test_graph_recmd.xml" switch="true"/>
+</context>

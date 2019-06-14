@@ -1,0 +1,11 @@
+<graph>
+    <http-node name="createOrder" url="/api/com.zbj.task.controller.service.BusinessService/createBusinessNew"/>
+    <http-node name="modifyOrder" url="/api/com.zbj.task.controller.service.BusinessService/modifyBusiness"/>
+
+    <head-node name="headNode"/>
+    <tail-node name="tailNode"/>
+
+    <link source="headNode" target="createOrder"/>
+    <link source="createOrder" target="modifyOrder"/>
+    <link source="modifyOrder" target="tailNode"/>
+</graph>
