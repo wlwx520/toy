@@ -23,6 +23,9 @@ public class TestApplicationContext {
         // 读取配置
         loadConfigure();
 
+        //初始化表达式
+        Constant.initExpression();
+
         for (TestGraph testGraph : GRAPHS) {
             // 生成测试图模板
             Graph<TestNode, Double, String, String> graphTemplate = TestGraphFactory.load(testGraph.getPath());

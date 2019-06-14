@@ -1,14 +1,13 @@
 package com.track.toy.test.core.expression;
 
 import com.alibaba.fastjson.JSON;
-import com.track.toy.test.core.custom.ActionInfo;
 import com.track.toy.test.core.Constant;
+import com.track.toy.test.core.custom.ActionInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ActionInfoExpression {
-
-    static {
+    public static void init() {
         //使用$ActionInfo{1234#系统}的表达式快速生成actionInfo
         Constant.EXPRESSION_HELPER.addFilter("$ActionInfo", (origin, objects) -> {
             ActionInfo actionInfo = new ActionInfo();
