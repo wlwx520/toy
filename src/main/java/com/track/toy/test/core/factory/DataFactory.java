@@ -2,7 +2,6 @@ package com.track.toy.test.core.factory;
 
 import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
-import com.track.toy.test.core.common.LogType;
 import com.track.toy.test.core.node.TestNode;
 
 import java.io.File;
@@ -27,7 +26,7 @@ public class DataFactory {
         }
 
         Graph<TestNode, Double, String, String> copy = graph.getPlusHandler().copy();
-        //TODO load data
+        //TODO load data headNode logRoot
         return copy;
     }
 
