@@ -12,5 +12,17 @@
                 <assert type="gl" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
             </assert>
         </http-node>
+        <http-node name="modifyOrder">
+            <input>
+                <!--用户信息-->
+                <param key="actionInfo" value="$ActionInfo{260#单踩}"></param>
+                <!--接口入参json-->
+                <param key="data" value="input-json"></param>
+            </input>
+            <assert type="AND">
+                <assert type="not" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="$NULL{}"/>
+                <assert type="gl" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
+            </assert>
+        </http-node>
     </data>
 </datas>
