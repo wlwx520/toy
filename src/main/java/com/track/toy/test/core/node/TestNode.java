@@ -86,6 +86,7 @@ public abstract class TestNode {
                 isSuccess = this.groupTestAssert.asserts(this);
             } catch (Exception e) {
                 log.info("test exception.", e);
+                fileLogger.info(e.getCause().toString());
                 isSuccess  = false;
             }
         }
