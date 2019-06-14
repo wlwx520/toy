@@ -28,12 +28,12 @@ public class TestApplicationContext {
             Graph<TestNode, Double, String, String> graphTemplate = TestGraphFactory.load(testGraph.getPath());
 
             //初始化测试图数据源
-            DataFactory.init(graphTemplate, testGraph.getDataFolder());
+            DataFactory dataFactory = DataFactory.init(graphTemplate, testGraph.getDataFolder());
 
             test_graph:
             while (true) {
                 //每次拉取一份测试数据进行测试
-                Graph<TestNode, Double, String, String> tempGraphData = DataFactory.poll();
+                Graph<TestNode, Double, String, String> tempGraphData = dataFactory.poll();
 
                 //当拉去不到数据时，结束该测试图
                 if (tempGraphData == null) {

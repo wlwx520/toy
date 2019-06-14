@@ -9,30 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataFactory {
-    private static List<File> DATA_FILES = new ArrayList<>();
-    private static Graph<TestNode, Double, String, String> GRAPH;
+    private List<File> dataFiles = new ArrayList<>();
+    private Graph<TestNode, Double, String, String> graph;
 
-    public static void init(Graph<TestNode, Double, String, String> graph, String dataFolder) {
-        DATA_FILES = FileHelper.listFiles(new File(dataFolder));
-        GRAPH = graph;
+    public static DataFactory init(Graph<TestNode, Double, String, String> graph, String dataFolder) {
+        DataFactory dataFactory = new DataFactory();
+        dataFactory.dataFiles = FileHelper.listFiles(new File(dataFolder));
+        dataFactory.graph = graph;
+        return dataFactory;
     }
 
-    public static Graph<TestNode, Double, String, String> poll() {
+    public Graph<TestNode, Double, String, String> poll() {
         File dataFile = pollFile();
         if (dataFile == null) {
             return null;
         }
 
-        Graph<TestNode, Double, String, String> copy = GRAPH.getPlusHandler().copy();
+        Graph<TestNode, Double, String, String> copy = graph.getPlusHandler().copy();
         //TODO load data
         return copy;
     }
 
-    private static File pollFile() {
-        if (DATA_FILES.isEmpty()) {
+    private File pollFile() {
+        if (dataFiles.isEmpty()) {
             return null;
         }
-        return DATA_FILES.remove(0);
+        return dataFiles.remove(0);
     }
 
 
