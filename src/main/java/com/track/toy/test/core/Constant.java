@@ -1,4 +1,4 @@
-package com.track.toy.test.core.common;
+package com.track.toy.test.core;
 
 import com.track.toy.helper.ExpressionHelper;
 

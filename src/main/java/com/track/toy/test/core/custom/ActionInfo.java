@@ -1,4 +1,4 @@
-package com.track.toy.test.core.common;
+package com.track.toy.test.core.custom;
 
 import lombok.Data;
 

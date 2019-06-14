@@ -1,6 +1,6 @@
 package com.track.toy.test.core.asserts;
 
-import com.track.toy.test.core.common.Constant;
+import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Data;
 

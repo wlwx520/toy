@@ -1,8 +1,7 @@
 <context>
     <properties>
-        <server-ip>192.168.0.0</server-ip>
-        <common-url>/tradewebpc/api</common-url>
+        <property key="server-ip" value="192.168.0.0:8087"></property>
     </properties>
 
-    <test-graph path="test_recmd/test_graph_recmd.xml" switch="true"/>
+    <test-graph path="$CONFIGURE{}/test_recmd/test_recmd_graph.xml" dataFolder="$CONFIGURE{}/test_recmd/test_recmd_data" switch="true"/>
 </context>

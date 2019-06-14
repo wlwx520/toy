@@ -2,7 +2,6 @@ package com.track.toy.graph;
 
 import com.track.toy.copy.BeanCopyUtil;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +17,17 @@ public class Graph<T, R extends Comparable<R>, K, E> {
     NodeHandler<T, R, K, E> nodeHandler;
     EdgeHandler<T, R, K, E> edgeHandler;
     PlusHandler<T, R, K, E> plusHandler;
+
+    private Graph(INodeKey<T, K> nodeKey, IEdgeKey<T, E> edgeKey, IEdgeRight<T, R> right) {
+        this.nodeKey = nodeKey;
+        this.edgeKey = edgeKey;
+        this.right = right;
+        this.allNodes = new HashMap<>();
+        this.allEdges = new HashMap<>();
+        this.nodeHandler = new NodeHandler<>(this);
+        this.edgeHandler = new EdgeHandler<>(this);
+        this.plusHandler = new PlusHandler<>(this);
+    }
 
     public Graph(IGraph<T, R, K, E> graph) {
         this.nodeKey = graph;
@@ -208,6 +218,12 @@ public class Graph<T, R extends Comparable<R>, K, E> {
         linkAncestors(tempNode, resultNode, ancestors, from);
         linkDescendants(tempNode, resultNode, descendants, to);
         return resultNode;
+    }
+
+    Graph<T, R, K, E> copy() {
+        Graph<T, R, K, E> copy = new Graph<T, R, K, E>(this.nodeKey, this.edgeKey, this.right);
+        //TODO
+        return copy;
     }
 
     private void linkDescendants(Node<T, R, K, E> tempNode, HierarchyNode<T> resultNode, int ancestors, int to) {

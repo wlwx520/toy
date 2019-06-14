@@ -1,4 +1,4 @@
-package com.track.toy.test.core;
+package com.track.toy.test.core.common;
 
 import com.track.toy.graph.IGraph;
 import com.track.toy.test.core.node.TestNode;

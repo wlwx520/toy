@@ -3,9 +3,8 @@ package com.track.toy.test.core.node;
 import com.alibaba.fastjson.JSONObject;
 import com.track.toy.graph.Graph;
 import com.track.toy.graph.HierarchyNode;
-import com.track.toy.test.core.TestGraphBuilder;
 import com.track.toy.test.core.asserts.GroupTestAssert;
-import com.track.toy.test.core.common.Executors;
+import com.track.toy.test.core.common.TestGraphBuilder;
 import com.track.toy.test.core.prepare.PrepareType;
 import lombok.Data;
 
@@ -53,8 +52,8 @@ public abstract class TestNode {
         //如果不满足开启测试的条件，则该节点测试线程休眠
         //如果整个测试任务停止，则唤醒所有锁后直接return
         synchronized (lock) {
-            while (!Executors.isTesting || !prepareType.isPrepared(prepareValue, this)) {
-                if (!Executors.isTesting) {
+            while (!ExecutorFactory.isTesting || !prepareType.isPrepared(prepareValue, this)) {
+                if (!ExecutorFactory.isTesting) {
                     return;
                 }
 
@@ -74,7 +73,7 @@ public abstract class TestNode {
 
         //如果节点测试失败，则停止所有异步任务，并唤醒所有锁后直接return
         if (!isSuccess) {
-            Executors.stopTest();
+            ExecutorFactory.stopTest();
             graph.getNodeHandler().getAllNode().forEach(node -> {
                 node.lock.notifyAll();
             });
@@ -85,10 +84,10 @@ public abstract class TestNode {
         HierarchyNode<TestNode> hierarchy = graph.getPlusHandler().getHierarchy(name, 0, 1);
         Set<HierarchyNode<TestNode>> targets = hierarchy.getTargets();
         targets.forEach(targetTestNode -> {
-            if (!Executors.isTesting) {
+            if (!ExecutorFactory.isTesting) {
                 return;
             }
-            Executors.execute(() -> {
+            ExecutorFactory.execute(() -> {
                 targetTestNode.getData().doTest();
                 targetTestNode.getData().lock.notifyAll();
             });

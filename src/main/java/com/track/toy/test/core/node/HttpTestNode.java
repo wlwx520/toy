@@ -2,7 +2,7 @@ package com.track.toy.test.core.node;
 
 import com.alibaba.fastjson.JSON;
 import com.track.toy.helper.HttpHelper;
-import com.track.toy.test.core.common.Constant;
+import com.track.toy.test.core.Constant;
 import lombok.Data;
 
 //http-post的方式测试节点

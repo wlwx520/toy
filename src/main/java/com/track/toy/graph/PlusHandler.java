@@ -10,4 +10,8 @@ public class PlusHandler<T, R extends Comparable<R>, K, E> {
     public HierarchyNode<T> getHierarchy(K key, int from, int to) {
         return graph.getHierarchy(key, from, to);
     }
+
+    public Graph<T, R, K, E> copy() {
+        return graph.copy();
+    }
 }
