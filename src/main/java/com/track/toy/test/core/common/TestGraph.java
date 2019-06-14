@@ -11,7 +11,8 @@ import java.util.concurrent.Executors;
 
 @Slf4j
 public class TestGraph {
-    private static final String HEAD_NODE = "headNode";
+    public static final String HEAD_NODE = "headNode";
+    public static final String TAIL_NODE = "tailNode";
 
     @Getter
     private String path;

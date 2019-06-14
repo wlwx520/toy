@@ -3,6 +3,7 @@ package com.track.toy.test.core.node;
 import com.alibaba.fastjson.JSONObject;
 import com.track.toy.graph.HierarchyNode;
 import com.track.toy.test.core.asserts.GroupTestAssert;
+import com.track.toy.test.core.common.FileLogger;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.prepare.PrepareType;
 import lombok.Data;
@@ -18,9 +19,11 @@ public abstract class TestNode {
     protected String name;
     //整个测试图，用于探索测试的先后，与并发测试
     protected TestGraph testGraph;
+    //日志
+    protected FileLogger fileLogger;
 
     //默认该节点要开启测试必须要所有父节点执行完成
-    protected PrepareType prepareType = PrepareType.ALL;
+    protected PrepareType prepareType;
     //如选用PrepareType.ANY,则输入number，表示至少有几个父节点完成则开始执行，如选用PrepareType.SIGN，则输入String按'，'分割，表示需要哪些特定的父节点完成
     protected String prepareValue;
     //节点入参，使用表达式快速组合入参或引用其他节点的数据
@@ -39,6 +42,17 @@ public abstract class TestNode {
 
     //节点的具体测试方法，从input获取output
     protected abstract void testSelf();
+
+    public TestNode(String name, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert) {
+        this.name = name;
+        this.testGraph = testGraph;
+        this.prepareType = prepareType;
+        this.prepareValue = prepareValue;
+        this.input = input;
+        this.groupTestAssert = groupTestAssert;
+
+        this.fileLogger = new FileLogger(name);
+    }
 
     //开启节点测试
     public void doTest() {
