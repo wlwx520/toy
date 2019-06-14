@@ -2,6 +2,7 @@ package com.track.toy.test.core.factory;
 
 import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
+import com.track.toy.test.core.common.LogType;
 import com.track.toy.test.core.node.TestNode;
 
 import java.io.File;

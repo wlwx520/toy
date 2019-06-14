@@ -2,6 +2,7 @@ package com.track.toy.test.core.node;
 
 import com.track.toy.test.core.asserts.GroupTestAssert;
 import com.track.toy.test.core.common.TestGraph;
+import com.track.toy.test.core.factory.LoggerFactory;
 import com.track.toy.test.core.prepare.PrepareType;
 
 
@@ -13,5 +14,6 @@ public class TailNode extends TestNode {
 
     @Override
     public void testSelf() {
+        LoggerFactory.stopLog();
     }
 }
