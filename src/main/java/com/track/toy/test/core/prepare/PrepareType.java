@@ -26,7 +26,7 @@ public enum PrepareType implements ICheckPrepared {
     ANY {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
-            Integer preparedSize = 0;
+            int preparedSize;
             try {
                 preparedSize = Integer.valueOf(prepareValue);
             } catch (Exception e) {
