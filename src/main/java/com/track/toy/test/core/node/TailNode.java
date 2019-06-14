@@ -14,6 +14,5 @@ public class TailNode extends TestNode {
 
     @Override
     public void testSelf() {
-        LoggerFactory.stopLog();
     }
 }

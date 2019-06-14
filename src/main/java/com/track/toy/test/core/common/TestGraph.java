@@ -2,6 +2,7 @@ package com.track.toy.test.core.common;
 
 import com.track.toy.bean.CounterLock;
 import com.track.toy.graph.Graph;
+import com.track.toy.test.core.factory.LoggerFactory;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,9 @@ public class TestGraph {
 
         //主线程等待所有测试线程返回，等待计数锁归0
         await();
+
+        //主线程等待所有日志线程返回
+        LoggerFactory.stopLog();
 
         //停止测试
         stopTest();
