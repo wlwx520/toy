@@ -6,11 +6,13 @@ import com.track.toy.test.core.asserts.GroupTestAssert;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.prepare.PrepareType;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
 //抽象测试节点
 @Data
+@Slf4j
 public abstract class TestNode {
     //节点名
     protected String name;
@@ -64,10 +66,14 @@ public abstract class TestNode {
             }
 
             //开始节点的具体测试
-            testSelf();
-
-            //判断断言，测试是否成功
-            isSuccess = this.groupTestAssert.asserts(this);
+            try {
+                testSelf();
+                //判断断言，测试是否成功
+                isSuccess = this.groupTestAssert.asserts(this);
+            } catch (Exception e) {
+                log.info("test exception.", e);
+                isSuccess  = false;
+            }
         }
 
         //如果节点测试失败，则停止所有异步任务，并唤醒所有锁后直接return

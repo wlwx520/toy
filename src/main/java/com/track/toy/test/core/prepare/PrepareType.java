@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 //开启测试节点的条件
 @Slf4j
 public enum PrepareType implements ICheckPrepared {
+    //当所有父节点完成时，开启测试
     ALL {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
@@ -23,6 +24,7 @@ public enum PrepareType implements ICheckPrepared {
             return sources.stream().allMatch(source -> source.getData().isSuccess());
         }
     },
+    //当任意数量的父节点完成时，开启测试，prepareValue为需要开启测试的父节点数
     ANY {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
@@ -41,6 +43,7 @@ public enum PrepareType implements ICheckPrepared {
             return sources.stream().filter(source -> source.getData().isSuccess()).count() >= preparedSize;
         }
     },
+    //当指定父节点完成时，开启测试，prepareValue为指定父节点名，多个按‘,’分隔
     SIGN {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
