@@ -40,7 +40,11 @@ public class TestApplicationContext {
                     break test_graph;
                 }
 
-                testGraph.doTest(tempGraphData);
+                //加载数据
+                testGraph.loadData(tempGraphData);
+
+                //开启测试
+                testGraph.doTest();
             }
         }
     }

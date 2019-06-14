@@ -15,7 +15,7 @@ public enum PrepareType implements ICheckPrepared {
     ALL {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
-            HierarchyNode<TestNode> hierarchy = testNode.getGraph().getPlusHandler().getHierarchy(testNode.getName(), -1, 0);
+            HierarchyNode<TestNode> hierarchy = testNode.getTestGraph().getTempGraphData().getPlusHandler().getHierarchy(testNode.getName(), -1, 0);
             Set<HierarchyNode<TestNode>> sources = hierarchy.getSources();
             if (sources == null || sources.isEmpty()) {
                 return true;
@@ -33,7 +33,7 @@ public enum PrepareType implements ICheckPrepared {
                 log.info("any prepareValue must be a number . to select ALL , testNode = {}", testNode.getName());
                 return ALL.isPrepared(prepareValue, testNode);
             }
-            HierarchyNode<TestNode> hierarchy = testNode.getGraph().getPlusHandler().getHierarchy(testNode.getName(), -1, 0);
+            HierarchyNode<TestNode> hierarchy = testNode.getTestGraph().getTempGraphData().getPlusHandler().getHierarchy(testNode.getName(), -1, 0);
             Set<HierarchyNode<TestNode>> sources = hierarchy.getSources();
             if (sources == null || sources.isEmpty()) {
                 return true;
@@ -44,7 +44,7 @@ public enum PrepareType implements ICheckPrepared {
     SIGN {
         @Override
         public boolean isPrepared(String prepareValue, TestNode testNode) {
-            String[] split = new String[]{};
+            String[] split;
             try {
                 split = prepareValue.split(",");
             } catch (Exception e) {
@@ -55,7 +55,7 @@ public enum PrepareType implements ICheckPrepared {
                 List<String> names = Arrays.asList(split);
                 Stream<String> nameStream = names.stream().filter(name -> !"".equals(name.trim()));
                 if (nameStream.count() != 0) {
-                    return nameStream.allMatch(name -> testNode.getGraph().getNodeHandler().getNode(name).isSuccess());
+                    return nameStream.allMatch(name -> testNode.getTestGraph().getTempGraphData().getNodeHandler().getNode(name).isSuccess());
                 }
             }
             return ALL.isPrepared(prepareValue, testNode);
