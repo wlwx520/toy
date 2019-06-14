@@ -83,7 +83,7 @@ public abstract class TestNode {
             try {
                 testSelf();
                 //判断断言，测试是否成功
-                isSuccess = this.groupTestAssert.asserts(this);
+                isSuccess = groupTestAssert.asserts(this);
             } catch (Exception e) {
                 log.info("test exception.", e);
                 fileLogger.info(e.getCause().toString());
