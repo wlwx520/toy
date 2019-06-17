@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * 如需使用实现了List的其他List，请使用{@link CopyList},并提供无参默认构造器
  * 如需使用实现了Map的其他Map，请使用{@link CopyMap},并提供无参默认构造器
  * <p>
- * 在整个深度copy过程中，如被copy对应中的两个属性指向同一个对象，在深度copy后的对象也会使对象属性执行同一对象，
+ * 在整个深度copy过程中，如被copy对应中的两个属性指向同一个对象，在深度copy后的对象也会使对象属性指向同一对象，
  * 并且是包括属性不在同一层里（如对象有个属性指向a，在a同层有个Map，Map的value里也有个指向a，深度copy后也将保持该关系）
  * <p>
  * 以上所有注解均含有key的值，如key为空白，默认在所有情况下使用该注解，如key包含"test"，则只有在调用包含String key的重载方法，并设置为test的才会使用该注解
