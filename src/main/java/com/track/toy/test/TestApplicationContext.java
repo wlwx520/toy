@@ -1,14 +1,11 @@
 package com.track.toy.test;
 
-import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
 import com.track.toy.helper.XmlHelper;
 import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.factory.ConfigureFactory;
 import com.track.toy.test.core.factory.DataFactory;
-import com.track.toy.test.core.factory.TestGraphFactory;
-import com.track.toy.test.core.node.TestNode;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 
@@ -30,14 +27,14 @@ public class TestApplicationContext {
             // 生成测试图模板
             dataFactory.loadTemplate();
 
-            test_graph:
+            a:
             while (true) {
                 //每次拉取一份测试数据进行测试
                 TestGraph tempTestGraph = dataFactory.poll();
 
                 //当拉去不到数据时，结束该测试图
                 if (tempTestGraph == null) {
-                    break test_graph;
+                    break a;
                 }
 
                 //开启测试

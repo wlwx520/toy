@@ -6,7 +6,7 @@ import java.util.List;
 public class MultiProcessor<T> {
     private final int dealSize;
     private final int capacity;
-    private final List<T> QUEUE;
+    private final List<T> queue;
     private final IMultiProcessor<T> processor;
     private volatile boolean isEnd = false;
 
@@ -17,16 +17,22 @@ public class MultiProcessor<T> {
         this.capacity = capacity;
         this.dealSize = dealSize;
         this.processor = processor;
-        this.QUEUE = new LinkedList<T>();
+        this.queue = new LinkedList<T>();
 
         process();
     }
 
     public void add(T t) {
-        if (QUEUE.size() < capacity) {
-            QUEUE.add(t);
+        if (isEnd) {
+            throw new RuntimeException("multi processor is end");
         }
-        QUEUE_LOCK.notifyAll();
+
+        synchronized (QUEUE_LOCK) {
+            if (queue.size() < capacity) {
+                queue.add(t);
+            }
+            QUEUE_LOCK.notifyAll();
+        }
     }
 
     private void process() {
@@ -36,28 +42,32 @@ public class MultiProcessor<T> {
                 while (!isEnd) {
                     T poll;
                     synchronized (QUEUE_LOCK) {
-                        while (isEnd || QUEUE.isEmpty()) {
-                            if (isEnd) {
+                        a:
+                        while (true) {
+                            if (isEnd && queue.isEmpty()) {
                                 SELF_LOCK.endThread();
+                                QUEUE_LOCK.notifyAll();
                                 return;
                             }
 
-                            try {
-                                QUEUE_LOCK.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                            if (!isEnd && queue.isEmpty()) {
+                                try {
+                                    QUEUE_LOCK.wait();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
+
+                            poll = get();
+                            QUEUE_LOCK.notifyAll();
+                            break a;
                         }
-
-                        poll = get();
                     }
 
-                    QUEUE_LOCK.notifyAll();
-
-                    if (poll == null) {
-                        continue;
+                    if (poll != null) {
+                        processor.process(poll);
                     }
-                    processor.process(poll);
+
                 }
 
                 SELF_LOCK.endThread();
@@ -71,10 +81,10 @@ public class MultiProcessor<T> {
     }
 
     private T get() {
-        if (QUEUE == null || QUEUE.isEmpty()) {
+        if (queue == null || queue.isEmpty()) {
             return null;
         }
-        return QUEUE.remove(0);
+        return queue.remove(0);
     }
 
     @FunctionalInterface

@@ -2,6 +2,7 @@ package com.track.toy.test.core.factory;
 
 import com.track.toy.bean.MultiProcessor;
 import com.track.toy.helper.FileHelper;
+import com.track.toy.test.core.common.FileLogger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,10 @@ public class LoggerFactory {
     private static boolean isRunning = false;
 
     private static MultiProcessor<Log> multiProcessor;
+
+    public static FileLogger initFileLogger(String fileName) {
+        return new FileLogger(loggerRoot + "/" + fileName);
+    }
 
     public static void startLog(String loggerRoot) {
         if (isRunning) {
@@ -49,6 +54,14 @@ public class LoggerFactory {
         String path;
 
         private void toWrite() {
+            //this is just to test
+//            try {
+//                long millis = new Random().nextInt(10000);
+//                Thread.sleep(millis);
+//                System.out.println("random " + millis + " , path = " + path);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             File file = new File(path);
             FileHelper.createDirAndFileIfNotExists(file);
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
