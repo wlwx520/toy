@@ -2,6 +2,8 @@ package com.track.toy.test.core.factory;
 
 import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
+import com.track.toy.helper.XmlHelper;
+import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.node.TestNode;
 
@@ -23,6 +25,10 @@ public class DataFactory {
     public void loadTemplate() {
         TestGraph testGraphTemplate = new TestGraph(path, dataFolder);
         //TODO load template
+        String expressedPath = Constant.express(path);
+        LoggerFactory.systemLog("load template path = {} , expressedPath = {}", path, expressedPath);
+        XmlHelper.read(expressedPath);
+
 
         this.testGraphTemplate = testGraphTemplate;
     }

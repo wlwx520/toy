@@ -5,7 +5,15 @@ import com.track.toy.test.core.expression.ActionInfoExpression;
 
 public class Constant {
     //表达式管理器
-    public static final ExpressionHelper EXPRESSION_HELPER = new ExpressionHelper();
+    private static final ExpressionHelper EXPRESSION_HELPER = new ExpressionHelper();
+
+    public static String express(String origin, Object... objects) {
+        return EXPRESSION_HELPER.expressionFilter(origin, objects);
+    }
+
+    public static void addFilter(String key, ExpressionHelper.ExpressionFilter filter) {
+        EXPRESSION_HELPER.addFilter(key, filter);
+    }
 
     //初始化所有表达式
     public static void initExpression() {

@@ -20,8 +20,8 @@ public class HttpTestNode extends TestNode {
     @Override
     public void testSelf() {
         String postResult = HttpHelper.post(
-                Constant.EXPRESSION_HELPER.expressionFilter(this.url),
-                Constant.EXPRESSION_HELPER.expressionFilter(this.input.toJSONString()));
+                Constant.express(this.url),
+                Constant.express(this.input.toJSONString()));
 
         try {
             this.output = JSON.parseObject(postResult);

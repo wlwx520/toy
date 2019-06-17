@@ -5,3 +5,5 @@
 .settings
 .idea
 *.iml
+
+/log/**

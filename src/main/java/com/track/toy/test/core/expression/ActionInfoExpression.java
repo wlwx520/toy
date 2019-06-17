@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ActionInfoExpression {
     public static void init() {
         //使用$ActionInfo{1234#系统}的表达式快速生成actionInfo
-        Constant.EXPRESSION_HELPER.addFilter("$ActionInfo", (origin, objects) -> {
+        Constant.addFilter("$ActionInfo", (origin, objects) -> {
             ActionInfo actionInfo = new ActionInfo();
             try {
                 String[] split = origin.split("#");

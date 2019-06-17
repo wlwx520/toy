@@ -5,7 +5,6 @@ import com.track.toy.helper.FileHelper;
 import com.track.toy.test.core.common.FileLogger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
@@ -15,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Slf4j
 public class LoggerFactory {
@@ -22,26 +23,30 @@ public class LoggerFactory {
     private static String loggerRoot;
 
     @Getter
-    @Setter
     private static boolean isDebug = false;
 
     private static boolean isRunning = false;
 
     private static MultiProcessor<Log> multiProcessor;
 
+    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger(FileHelper.getAppRoot() + "/log/system.text");
+
+    public static void systemLog(String message, Object... objects) {
+        SYSTEM_FILE_LOGGER.info(message, objects);
+    }
 
     public static FileLogger initFileLogger(String fileName) {
         return new FileLogger(loggerRoot + "/" + fileName);
     }
 
     public static void startLog(String loggerRoot) {
-        if (isRunning) {
+        if (LoggerFactory.isRunning) {
             log.info("file log is running");
             return;
         }
-        isRunning = true;
+        LoggerFactory.isRunning = true;
         LoggerFactory.loggerRoot = loggerRoot;
-        multiProcessor = new MultiProcessor<>(10_000, 20, Log::toWrite);
+        LoggerFactory.multiProcessor = new MultiProcessor<>(10_000, 20, Log::toWrite);
     }
 
     public static void stopLog() {
@@ -54,16 +59,24 @@ public class LoggerFactory {
         multiProcessor.add(new Log(message, path));
     }
 
+    public static void setDebug(boolean isDebug) {
+        LoggerFactory.isDebug = isDebug;
+    }
+
     @AllArgsConstructor
     private static class Log {
         String message;
         String path;
 
+        private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS  |  ");
+
         private void toWrite() {
             File file = new File(path);
             FileHelper.createDirAndFileIfNotExists(file);
+
+            String toWriteMessage = DATE_FORMAT.format(new Date()) + message;
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
-                writer.write(message);
+                writer.write(toWriteMessage);
                 writer.newLine();
                 writer.newLine();
             } catch (UnsupportedEncodingException e) {

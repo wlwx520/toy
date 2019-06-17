@@ -79,8 +79,8 @@ public class TestApplicationContext {
                     continue;
                 }
 
-                path = Constant.EXPRESSION_HELPER.expressionFilter(path);
-                dataFolder = Constant.EXPRESSION_HELPER.expressionFilter(dataFolder);
+                path = Constant.express(path);
+                dataFolder = Constant.express(dataFolder);
 
                 if (!FileHelper.fileExist(path)) {
                     log.info("path of {} not exist", path);
