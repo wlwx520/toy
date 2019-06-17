@@ -1,3 +1,5 @@
+just for liuzhen to study
+
 主要思想：
 
 1.读取配置，将测试流程加载成测试图。
