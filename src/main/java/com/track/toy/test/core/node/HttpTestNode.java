@@ -19,10 +19,16 @@ public class HttpTestNode extends TestNode {
 
     @Override
     public void testSelf() {
-        this.output = JSON.parseObject(
-                HttpHelper.post(
-                        Constant.EXPRESSION_HELPER.expressionFilter(this.url),
-                        Constant.EXPRESSION_HELPER.expressionFilter(this.input.toJSONString())));
+        String postResult = HttpHelper.post(
+                Constant.EXPRESSION_HELPER.expressionFilter(this.url),
+                Constant.EXPRESSION_HELPER.expressionFilter(this.input.toJSONString()));
+
+        try {
+            this.output = JSON.parseObject(postResult);
+        } catch (Exception e) {
+            this.output = new JSONObject();
+            this.output.put("error", postResult);
+        }
 
     }
 

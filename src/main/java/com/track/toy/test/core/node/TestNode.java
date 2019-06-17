@@ -66,19 +66,19 @@ public abstract class TestNode {
 
         //标识开启测试
         isTesting = true;
-        fileLogger.info("start to test name = {}", name);
+        fileLogger.debug("to start");
 
         //如果不满足开启测试的条件，则该节点测试线程休眠
         //如果整个测试任务停止，则唤醒所有锁后直接return
         synchronized (lock) {
             while (!testGraph.isTesting() || !prepareType.isPrepared(prepareValue, this)) {
                 if (!testGraph.isTesting()) {
-                    fileLogger.info("test is end , to return");
+                    fileLogger.debug("test is end , to return");
                     return;
                 }
 
                 try {
-                    fileLogger.info("");
+                    fileLogger.debug("is not prepared to wait");
                     lock.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -87,14 +87,17 @@ public abstract class TestNode {
 
             //开始节点的具体测试
             try {
+                fileLogger.info("input = {}", input.toJSONString());
                 testSelf();
+                fileLogger.info("output = {}", output.toJSONString());
                 //判断断言，测试是否成功
                 isSuccess = groupTestAssert.asserts(this);
             } catch (Exception e) {
-                log.info("test exception.", e);
-                fileLogger.info(e.getCause().toString());
+                log.info("to exception", e);
+                fileLogger.info("to exception e = {}", e.getCause().toString());
                 isSuccess = false;
             }
+            fileLogger.info("success = {}", isSuccess);
         }
 
         //如果节点测试失败，则停止所有异步任务，并唤醒所有锁后直接return
@@ -103,6 +106,7 @@ public abstract class TestNode {
             testGraph.getTempGraphData().getNodeHandler().getAllNode().forEach(node -> {
                 node.lock.notifyAll();
             });
+            fileLogger.debug("to fail , stop testing and notify all");
             return;
         }
 
@@ -111,9 +115,11 @@ public abstract class TestNode {
         Set<HierarchyNode<TestNode>> targets = hierarchy.getTargets();
         targets.forEach(targetTestNode -> {
             if (!testGraph.isTesting()) {
+                fileLogger.debug("to end , not to start or notify the target");
                 return;
             }
             testGraph.execute(() -> {
+                targetTestNode.getData().fileLogger.debug("to start or notify from = {}", name);
                 targetTestNode.getData().doTest();
                 targetTestNode.getData().lock.notifyAll();
             });

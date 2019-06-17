@@ -73,6 +73,7 @@ public class LoggerFactory {
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
                 writer.write(message);
                 writer.newLine();
+                writer.newLine();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
