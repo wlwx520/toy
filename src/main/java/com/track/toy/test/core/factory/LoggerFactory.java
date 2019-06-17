@@ -60,14 +60,6 @@ public class LoggerFactory {
         String path;
 
         private void toWrite() {
-            //this is just to test
-//            try {
-//                long millis = new Random().nextInt(10000);
-//                Thread.sleep(millis);
-//                System.out.println("random " + millis + " , path = " + path);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             File file = new File(path);
             FileHelper.createDirAndFileIfNotExists(file);
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
