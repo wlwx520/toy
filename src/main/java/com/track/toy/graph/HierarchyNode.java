@@ -1,9 +1,12 @@
 package com.track.toy.graph;
 
+import com.track.toy.copy.CopyReference;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class HierarchyNode<T> {
+    @CopyReference
     private T data;
     private Set<HierarchyNode<T>> sources;
     private Set<HierarchyNode<T>> targets;

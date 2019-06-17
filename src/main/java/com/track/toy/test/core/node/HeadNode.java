@@ -2,7 +2,6 @@ package com.track.toy.test.core.node;
 
 import com.track.toy.helper.FileHelper;
 import com.track.toy.test.core.asserts.GroupTestAssert;
-import com.track.toy.test.core.common.LogType;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.factory.LoggerFactory;
 import com.track.toy.test.core.prepare.PrepareType;
@@ -18,6 +17,12 @@ public class HeadNode extends TestNode {
 
     @Override
     public void testSelf() {
-        LoggerFactory.startLog(FileHelper.getAppRoot() + "/log/" + logRoot, LogType.TYPE);
+        LoggerFactory.startLog(FileHelper.getAppRoot() + "/log/" + logRoot);
     }
+
+    @Override
+    public HeadNode copy(TestGraph testGraph) {
+        return new HeadNode(testGraph,logRoot);
+    }
+
 }

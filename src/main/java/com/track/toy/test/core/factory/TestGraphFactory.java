@@ -1,10 +1,9 @@
 package com.track.toy.test.core.factory;
 
-import com.track.toy.graph.Graph;
-import com.track.toy.test.core.node.TestNode;
+import com.track.toy.test.core.common.TestGraph;
 
 public class TestGraphFactory {
-    public static Graph<TestNode, Double, String, String> load(String path) {
+    public static TestGraph load(TestGraph path) {
         //TODO load graph
         return null;
     }

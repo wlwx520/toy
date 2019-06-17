@@ -2,6 +2,7 @@ package com.track.toy.test.core.node;
 
 import com.alibaba.fastjson.JSONObject;
 import com.track.toy.graph.HierarchyNode;
+import com.track.toy.graph.TestData;
 import com.track.toy.test.core.asserts.GroupTestAssert;
 import com.track.toy.test.core.common.FileLogger;
 import com.track.toy.test.core.common.TestGraph;
@@ -42,6 +43,9 @@ public abstract class TestNode {
 
     //节点的具体测试方法，从input获取output
     protected abstract void testSelf();
+
+    //copy
+    public abstract <T extends TestNode> T copy(TestGraph testGraph);
 
     public TestNode(String name, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert) {
         this.name = name;
@@ -113,4 +117,5 @@ public abstract class TestNode {
             });
         });
     }
+
 }

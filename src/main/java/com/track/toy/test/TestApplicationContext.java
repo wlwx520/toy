@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 public class TestApplicationContext {
-    private static final List<TestGraph> GRAPHS = new ArrayList<>();
+    private static final List<DataFactory> DATA_FACTORIES = new ArrayList<>();
 
     public static void main(String[] args) {
         // 读取配置
@@ -26,28 +26,22 @@ public class TestApplicationContext {
         //初始化表达式
         Constant.initExpression();
 
-        for (TestGraph testGraph : GRAPHS) {
+        for (DataFactory dataFactory : DATA_FACTORIES) {
             // 生成测试图模板
-            Graph<TestNode, Double, String, String> graphTemplate = TestGraphFactory.load(testGraph.getPath());
-
-            //初始化测试图数据源
-            DataFactory dataFactory = DataFactory.init(graphTemplate, testGraph.getDataFolder());
+            dataFactory.loadTemplate();
 
             test_graph:
             while (true) {
                 //每次拉取一份测试数据进行测试
-                Graph<TestNode, Double, String, String> tempGraphData = dataFactory.poll();
+                TestGraph tempTestGraph = dataFactory.poll();
 
                 //当拉去不到数据时，结束该测试图
-                if (tempGraphData == null) {
+                if (tempTestGraph == null) {
                     break test_graph;
                 }
 
-                //加载数据
-                testGraph.loadData(tempGraphData);
-
                 //开启测试
-                testGraph.doTest();
+                tempTestGraph.doTest();
             }
         }
     }
@@ -100,7 +94,7 @@ public class TestApplicationContext {
                     continue;
                 }
 
-                GRAPHS.add(new TestGraph(path, dataFolder));
+                DATA_FACTORIES.add(new DataFactory(path, dataFolder));
             }
         }
     }

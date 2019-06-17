@@ -43,6 +43,10 @@ public class TestGraph {
         this.tempGraphData = tempGraphData;
     }
 
+    public TestGraph copy() {
+        return new TestGraph(path, dataFolder);
+    }
+
     //执行测试
     public void doTest() {
         if (tempGraphData == null) {

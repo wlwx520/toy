@@ -220,9 +220,21 @@ public class Graph<T, R extends Comparable<R>, K, E> {
         return resultNode;
     }
 
-    Graph<T, R, K, E> copy() {
+    Graph<T, R, K, E> copy(INodeDataCopy<T> nodeCopy) {
         Graph<T, R, K, E> copy = new Graph<T, R, K, E>(this.nodeKey, this.edgeKey, this.right);
-        //TODO
+
+        allNodes.forEach((key, node) -> {
+            T newData = nodeCopy.nodeCopy(node.getData());
+            copy.newNode(newData);
+        });
+
+        allEdges.forEach((key, edge) -> {
+            K sourceKey = edge.getSource().getKey();
+            K targetKey = edge.getTarget().getKey();
+
+            copy.newEdgeByKey(sourceKey, targetKey);
+        });
+
         return copy;
     }
 
@@ -252,5 +264,10 @@ public class Graph<T, R extends Comparable<R>, K, E> {
             resultNode.addSource(subSource);
             linkAncestors(source, subSource, descendantsNext, from);
         });
+    }
+
+    @FunctionalInterface
+    public interface INodeDataCopy<T> {
+        T nodeCopy(T t);
     }
 }

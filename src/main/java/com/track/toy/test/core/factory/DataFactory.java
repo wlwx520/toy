@@ -2,32 +2,43 @@ package com.track.toy.test.core.factory;
 
 import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
+import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.node.TestNode;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataFactory {
-    private List<File> dataFiles = new ArrayList<>();
-    private Graph<TestNode, Double, String, String> graph;
+    private String path;
+    private String dataFolder;
+    private TestGraph testGraphTemplate;
+    private List<File> dataFiles;
 
-    public static DataFactory init(Graph<TestNode, Double, String, String> graph, String dataFolder) {
-        DataFactory dataFactory = new DataFactory();
-        dataFactory.dataFiles = FileHelper.listFiles(new File(dataFolder));
-        dataFactory.graph = graph;
-        return dataFactory;
+    public DataFactory(String path, String dataFolder) {
+        this.path = path;
+        this.dataFolder = dataFolder;
+        this.dataFiles = FileHelper.listFiles(new File(dataFolder));
     }
 
-    public Graph<TestNode, Double, String, String> poll() {
+    public void loadTemplate() {
+        TestGraph testGraphTemplate = new TestGraph(path, dataFolder);
+        //TODO load template
+
+        this.testGraphTemplate = testGraphTemplate;
+    }
+
+    public TestGraph poll() {
         File dataFile = pollFile();
         if (dataFile == null) {
             return null;
         }
 
-        Graph<TestNode, Double, String, String> copy = graph.getPlusHandler().copy();
+        TestGraph testGraphCopy = testGraphTemplate.copy();
+        Graph<TestNode, Double, String, String> dataCopy = testGraphTemplate.getTempGraphData().getPlusHandler()
+                .copy(testNode -> testNode.copy(testGraphCopy));
         //TODO load data headNode logRoot
-        return copy;
+        testGraphCopy.loadData(dataCopy);
+        return testGraphCopy;
     }
 
     private File pollFile() {
@@ -36,6 +47,5 @@ public class DataFactory {
         }
         return dataFiles.remove(0);
     }
-
 
 }

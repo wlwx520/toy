@@ -11,7 +11,7 @@ public class PlusHandler<T, R extends Comparable<R>, K, E> {
         return graph.getHierarchy(key, from, to);
     }
 
-    public Graph<T, R, K, E> copy() {
-        return graph.copy();
+    public Graph<T, R, K, E> copy(Graph.INodeDataCopy<T> nodeCopy) {
+        return graph.copy(nodeCopy);
     }
 }

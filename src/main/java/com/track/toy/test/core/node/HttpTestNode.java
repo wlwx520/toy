@@ -25,4 +25,9 @@ public class HttpTestNode extends TestNode {
                         Constant.EXPRESSION_HELPER.expressionFilter(this.input.toJSONString())));
 
     }
+
+    @Override
+    public HttpTestNode copy(TestGraph testGraph) {
+        return new HttpTestNode(name, testGraph, prepareType, prepareValue, null, groupTestAssert, url);
+    }
 }
