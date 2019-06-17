@@ -1,7 +1,10 @@
 <context>
     <properties>
-        <property key="server-ip" value="192.168.0.0:8087"></property>
+        <property key="log-level" value="debug"/>
+        <property key="server-ip" value="192.168.0.0:8087"/>
     </properties>
 
-    <test-graph path="$CONFIGURE{}/test_recmd/test_recmd_graph.xml" dataFolder="$CONFIGURE{}/test_recmd/test_recmd_data" switch="true"/>
+    <test-graph switch="true"
+                path="$CONFIGURE{}/test_recmd/test_recmd_graph.xml"
+                dataFolder="$CONFIGURE{}/test_recmd/test_recmd_data"/>
 </context>

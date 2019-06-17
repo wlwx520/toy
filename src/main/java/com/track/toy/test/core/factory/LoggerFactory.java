@@ -5,6 +5,7 @@ import com.track.toy.helper.FileHelper;
 import com.track.toy.test.core.common.FileLogger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
@@ -20,9 +21,14 @@ public class LoggerFactory {
     @Getter
     private static String loggerRoot;
 
+    @Getter
+    @Setter
+    private static boolean isDebug = false;
+
     private static boolean isRunning = false;
 
     private static MultiProcessor<Log> multiProcessor;
+
 
     public static FileLogger initFileLogger(String fileName) {
         return new FileLogger(loggerRoot + "/" + fileName);

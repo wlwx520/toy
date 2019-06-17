@@ -2,7 +2,6 @@ package com.track.toy.test.core.node;
 
 import com.alibaba.fastjson.JSONObject;
 import com.track.toy.graph.HierarchyNode;
-import com.track.toy.graph.TestData;
 import com.track.toy.test.core.asserts.GroupTestAssert;
 import com.track.toy.test.core.common.FileLogger;
 import com.track.toy.test.core.common.TestGraph;
@@ -67,16 +66,19 @@ public abstract class TestNode {
 
         //标识开启测试
         isTesting = true;
+        fileLogger.info("start to test name = {}", name);
 
         //如果不满足开启测试的条件，则该节点测试线程休眠
         //如果整个测试任务停止，则唤醒所有锁后直接return
         synchronized (lock) {
             while (!testGraph.isTesting() || !prepareType.isPrepared(prepareValue, this)) {
                 if (!testGraph.isTesting()) {
+                    fileLogger.info("test is end , to return");
                     return;
                 }
 
                 try {
+                    fileLogger.info("");
                     lock.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -91,7 +93,7 @@ public abstract class TestNode {
             } catch (Exception e) {
                 log.info("test exception.", e);
                 fileLogger.info(e.getCause().toString());
-                isSuccess  = false;
+                isSuccess = false;
             }
         }
 
