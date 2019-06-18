@@ -1,16 +1,17 @@
 package com.track.toy.test.core.asserts;
 
-import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Data;
 
 @Data
 public class TestAssert {
-    protected String expressionStr;
+    protected String source;
+    protected String target;
+    protected TestAssertType type;
     protected boolean isSuccess;
 
     //断言，通过表达式统一判断
     public boolean asserts(TestNode testNode) {
-        return this.isSuccess = Boolean.valueOf(Constant.express(expressionStr, testNode));
+        return this.isSuccess = type.judge(source, target);
     }
 }
