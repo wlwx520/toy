@@ -75,7 +75,7 @@ public class BeanCopyUtil {
     }
 
     public static <S, T> T deepCopy(Class<T> targetClz, S source, String key) {
-        return deepCopy(targetClz, source, key);
+        return deepCopy(targetClz, source, source, targetClz, new HashMap<>(), key);
     }
 
     private static <S, T> T deepCopy(Class<T> targetClz, S source, Object sRoot, Class<?> tRootClz, Map<Object, Object> beans, String key) {
