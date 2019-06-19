@@ -7,16 +7,16 @@ import com.track.toy.test.core.common.FileLogger;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.prepare.PrepareType;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
 //抽象测试节点
 @Data
-@Slf4j
 public abstract class TestNode {
     //节点名
     protected String name;
+    //数据名
+    protected String testDateName;
     //整个测试图，用于探索测试的先后，与并发测试
     protected TestGraph testGraph;
     //日志
@@ -44,17 +44,18 @@ public abstract class TestNode {
     protected abstract void testSelf();
 
     //节点复制
-    public abstract <T extends TestNode> T copy(TestGraph testGraph);
+    public abstract <T extends TestNode> T copy(TestGraph testGraph,String testDateName);
 
-    public TestNode(String name, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert) {
+    public TestNode(String name, String testDateName, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert) {
         this.name = name;
+        this.testDateName = testDateName;
         this.testGraph = testGraph;
         this.prepareType = prepareType;
         this.prepareValue = prepareValue;
         this.input = input;
         this.groupTestAssert = groupTestAssert;
 
-        this.fileLogger = new FileLogger(name);
+        this.fileLogger = new FileLogger(testDateName + "/" + name);
     }
 
     //开启节点测试
@@ -93,7 +94,6 @@ public abstract class TestNode {
                 //判断断言，测试是否成功
                 isSuccess = groupTestAssert.asserts(this);
             } catch (Exception e) {
-                log.info("to exception", e);
                 fileLogger.info("to exception e = {}", e.getCause().toString());
                 isSuccess = false;
             }

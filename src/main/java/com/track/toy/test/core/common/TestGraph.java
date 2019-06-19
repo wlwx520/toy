@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Slf4j
 public class TestGraph {
     public static final String HEAD_NODE = "headNode";
     public static final String TAIL_NODE = "tailNode";
@@ -50,7 +49,7 @@ public class TestGraph {
     //执行测试
     public void doTest() {
         if (tempGraphData == null) {
-            log.info("测试数据未加载");
+            LoggerFactory.systemLog("测试数据未加载");
             return;
         }
 
@@ -64,9 +63,6 @@ public class TestGraph {
 
         //主线程等待所有测试线程返回，等待计数锁归0
         await();
-
-        //主线程等待所有日志线程返回
-        LoggerFactory.stopLog();
 
         //停止测试
         stopTest();

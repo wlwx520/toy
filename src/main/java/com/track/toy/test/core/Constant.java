@@ -2,6 +2,11 @@ package com.track.toy.test.core;
 
 import com.track.toy.helper.ExpressionHelper;
 import com.track.toy.test.core.expression.ActionInfoExpression;
+import com.track.toy.test.core.expression.FileExpression;
+import lombok.Getter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Constant {
     //表达式管理器
@@ -18,5 +23,6 @@ public class Constant {
     //初始化所有表达式
     public static void initExpression() {
         ActionInfoExpression.init();
+        FileExpression.init();
     }
 }

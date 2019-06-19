@@ -19,8 +19,8 @@ import java.util.Date;
 
 @Slf4j
 public class LoggerFactory {
-    @Getter
-    private static String loggerRoot;
+
+    private static String loggerRoot = FileHelper.getAppRoot() + "/log" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
 
     @Getter
     private static boolean isDebug = false;
@@ -29,7 +29,7 @@ public class LoggerFactory {
 
     private static MultiProcessor<Log> multiProcessor;
 
-    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger(FileHelper.getAppRoot() + "/log/system.text");
+    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger(loggerRoot + "/system.text");
 
     public static void systemLog(String message, Object... objects) {
         SYSTEM_FILE_LOGGER.info(message, objects);
@@ -39,20 +39,18 @@ public class LoggerFactory {
         return new FileLogger(loggerRoot + "/" + fileName);
     }
 
-    public static void startLog(String loggerRoot) {
+    public static void startLog() {
         if (LoggerFactory.isRunning) {
             log.info("file log is running");
             return;
         }
         LoggerFactory.isRunning = true;
-        LoggerFactory.loggerRoot = loggerRoot;
         LoggerFactory.multiProcessor = new MultiProcessor<>(10_000, 20, Log::toWrite);
     }
 
     public static void stopLog() {
         multiProcessor.stop();
         isRunning = false;
-        multiProcessor = null;
     }
 
     public static void log(String message, String path) {

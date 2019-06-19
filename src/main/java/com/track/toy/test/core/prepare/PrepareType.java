@@ -1,6 +1,7 @@
 package com.track.toy.test.core.prepare;
 
 import com.track.toy.graph.HierarchyNode;
+import com.track.toy.test.core.asserts.TestAssertType;
 import com.track.toy.test.core.node.TestNode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,5 +65,18 @@ public enum PrepareType implements ICheckPrepared {
             return ALL.isPrepared(prepareValue, testNode);
         }
     };
+
+    public static PrepareType getFromName(String type){
+        if (type == null) {
+            throw new RuntimeException("PrepareType is null");
+        }
+        PrepareType[] types = PrepareType.values();
+        for (PrepareType prepareType : types) {
+            if (prepareType.name().toLowerCase().equals(type.toLowerCase())) {
+                return prepareType;
+            }
+        }
+        throw new RuntimeException("PrepareType not found , type = " + type);
+    }
 
 }

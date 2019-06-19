@@ -3,6 +3,7 @@ package com.track.toy.test.core.expression;
 import com.alibaba.fastjson.JSON;
 import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.custom.ActionInfo;
+import com.track.toy.test.core.factory.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,7 +22,7 @@ public class ActionInfoExpression {
                     actionInfo.setNickname(split[1]);
                 }
             } catch (Exception e) {
-                log.info("expressionFilter to actionInfo error.", e);
+                LoggerFactory.systemLog("expressionFilter to actionInfo error e = {}", e.getCause());
             }
             return JSON.toJSONString(actionInfo);
         });

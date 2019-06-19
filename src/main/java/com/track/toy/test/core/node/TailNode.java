@@ -7,8 +7,8 @@ import com.track.toy.test.core.prepare.PrepareType;
 
 //用于记录测试完成的节点
 public class TailNode extends TestNode {
-    public TailNode(TestGraph testGraph) {
-        super(TestGraph.TAIL_NODE, testGraph, PrepareType.ALL, null, null, GroupTestAssert.DEFAULT_TRUE_ASSERT);
+    public TailNode(TestGraph testGraph,String testDateName) {
+        super(TestGraph.TAIL_NODE, testDateName,testGraph, PrepareType.ALL, null, null, GroupTestAssert.DEFAULT_TRUE_ASSERT);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class TailNode extends TestNode {
     }
 
     @Override
-    public TailNode copy(TestGraph testGraph) {
-        return new TailNode(testGraph);
+    public TailNode copy(TestGraph testGraph,String testDateName) {
+        return new TailNode(testGraph,testDateName);
     }
 }

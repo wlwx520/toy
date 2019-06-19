@@ -12,8 +12,8 @@ import com.track.toy.test.core.prepare.PrepareType;
 public class HttpTestNode extends TestNode {
     private String url;
 
-    public HttpTestNode(String name, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert, String url) {
-        super(name, testGraph, prepareType, prepareValue, input, groupTestAssert);
+    public HttpTestNode(String name,String testDateName, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert, String url) {
+        super(name, testDateName,testGraph, prepareType, prepareValue, input, groupTestAssert);
         this.url = url;
     }
 
@@ -33,7 +33,7 @@ public class HttpTestNode extends TestNode {
     }
 
     @Override
-    public HttpTestNode copy(TestGraph testGraph) {
-        return new HttpTestNode(name, testGraph, prepareType, prepareValue, null, groupTestAssert, url);
+    public HttpTestNode copy(TestGraph testGraph,String testDateName) {
+        return new HttpTestNode(name,testDateName, testGraph, prepareType, prepareValue, null, groupTestAssert, url);
     }
 }

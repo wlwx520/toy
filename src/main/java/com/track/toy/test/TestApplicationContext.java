@@ -6,6 +6,7 @@ import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.factory.ConfigureFactory;
 import com.track.toy.test.core.factory.DataFactory;
+import com.track.toy.test.core.factory.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 
@@ -17,15 +18,23 @@ public class TestApplicationContext {
     private static final List<DataFactory> DATA_FACTORIES = new ArrayList<>();
 
     public static void main(String[] args) {
-        // 读取配置
-        loadConfigure();
-
         //初始化表达式
         Constant.initExpression();
 
+        // 读取配置
+        loadConfigure();
+
+        LoggerFactory.startLog();
+
+        b:
         for (DataFactory dataFactory : DATA_FACTORIES) {
-            // 生成测试图模板
-            dataFactory.loadTemplate();
+            try {
+                // 生成测试图模板
+                dataFactory.loadTemplate();
+            } catch (Exception e) {
+                LoggerFactory.systemLog("load template exception e = {}", e.getCause());
+                continue b;
+            }
 
             a:
             while (true) {
@@ -41,6 +50,9 @@ public class TestApplicationContext {
                 tempTestGraph.doTest();
             }
         }
+
+        //主线程等待所有日志线程返回
+        LoggerFactory.stopLog();
     }
 
 
@@ -71,24 +83,20 @@ public class TestApplicationContext {
                 String path = testGraphElement.attributeValue("path");
                 String dataFolder = testGraphElement.attributeValue("dataFolder");
                 if (path == null) {
-                    log.info("attr of path not exist");
-                    continue;
+                    throw new RuntimeException("attr of path not exist");
                 }
                 if (dataFolder == null) {
-                    log.info("attr of dataFolder not exist");
-                    continue;
+                    throw new RuntimeException("attr of dataFolder not exist");
                 }
 
                 path = Constant.express(path);
                 dataFolder = Constant.express(dataFolder);
 
                 if (!FileHelper.fileExist(path)) {
-                    log.info("path of {} not exist", path);
-                    continue;
+                    throw new RuntimeException("path of " + path + " not exist");
                 }
                 if (!FileHelper.fileExist(dataFolder)) {
-                    log.info("path of {} not exist", dataFolder);
-                    continue;
+                    throw new RuntimeException("path of " + dataFolder + " not exist");
                 }
 
                 DATA_FACTORIES.add(new DataFactory(path, dataFolder));

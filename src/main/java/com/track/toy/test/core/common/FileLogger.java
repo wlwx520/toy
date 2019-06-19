@@ -10,6 +10,7 @@ public class FileLogger {
     public void info(String message, Object... objects) {
         if (objects == null || objects.length == 0) {
             LoggerFactory.log(message, path);
+            return;
         }
 
         String newMessage = message;
