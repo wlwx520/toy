@@ -44,7 +44,7 @@ public abstract class TestNode {
     protected abstract void testSelf();
 
     //节点复制
-    public abstract <T extends TestNode> T copy(TestGraph testGraph,String testDateName);
+    public abstract <T extends TestNode> T copy(TestGraph testGraph, String testDateName);
 
     public TestNode(String name, String testDateName, TestGraph testGraph, PrepareType prepareType, String prepareValue, JSONObject input, GroupTestAssert groupTestAssert) {
         this.name = name;
@@ -88,9 +88,9 @@ public abstract class TestNode {
 
             //开始节点的具体测试
             try {
-                fileLogger.info("input = {}", input.toJSONString());
+                fileLogger.info("input = {}", input == null ? "null" : input.toJSONString());
                 testSelf();
-                fileLogger.info("output = {}", output.toJSONString());
+                fileLogger.info("output = {}", output == null ? "null" : output.toJSONString());
                 //判断断言，测试是否成功
                 isSuccess = groupTestAssert.asserts(this);
             } catch (Exception e) {
@@ -119,9 +119,11 @@ public abstract class TestNode {
                 return;
             }
             testGraph.execute(() -> {
-                targetTestNode.getData().fileLogger.debug("to start or notify from = {}", name);
-                targetTestNode.getData().doTest();
-                targetTestNode.getData().lock.notifyAll();
+                synchronized (targetTestNode.getData().lock) {
+                    targetTestNode.getData().fileLogger.debug("to start or notify from = {}", name);
+                    targetTestNode.getData().doTest();
+                    targetTestNode.getData().lock.notifyAll();
+                }
             });
         });
     }

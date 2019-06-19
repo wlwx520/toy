@@ -27,6 +27,11 @@ public enum TestAssertType {
             return source.compareTo(target) < 0;
         }
     },
+    NOT {
+        public boolean judge(String source, String target) {
+            return source.compareTo(target) != 0;
+        }
+    },
     CONTAINS {
         public boolean judge(String source, String target) {
             if (source.trim().isEmpty()) {

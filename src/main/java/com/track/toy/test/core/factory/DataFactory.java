@@ -11,12 +11,15 @@ import com.track.toy.test.core.asserts.TestAssert;
 import com.track.toy.test.core.asserts.TestAssertType;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.common.TestGraphBuilder;
+import com.track.toy.test.core.node.HeadNode;
 import com.track.toy.test.core.node.HttpTestNode;
+import com.track.toy.test.core.node.TailNode;
 import com.track.toy.test.core.node.TestNode;
 import com.track.toy.test.core.prepare.PrepareType;
 import org.dom4j.Element;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataFactory {
@@ -28,7 +31,9 @@ public class DataFactory {
     public DataFactory(String path, String dataFolder) {
         this.path = path;
         this.dataFolder = dataFolder;
-        this.dataFiles = FileHelper.listFiles(new File(dataFolder));
+        List<File> files = FileHelper.listFiles(new File(dataFolder));
+        this.dataFiles = new ArrayList<>();
+        this.dataFiles.addAll(files);
     }
 
     public void loadTemplate() {
@@ -43,6 +48,8 @@ public class DataFactory {
 
         Element templateElement = XmlHelper.read(expressedPath);
         List<Element> httpNodeElementList = templateElement.elements("http-node");
+        templateGraph.getNodeHandler().newNode(new HeadNode(testGraphTemplate, "headNode"));
+        templateGraph.getNodeHandler().newNode(new TailNode(testGraphTemplate, "tailNode"));
         if (httpNodeElementList != null) {
             httpNodeElementList.forEach(httpNodeElement -> {
                 String name = httpNodeElement.attributeValue("name");
@@ -111,7 +118,7 @@ public class DataFactory {
         String type = assertElement.attributeValue("type");
         TestAssertType fromType = TestAssertType.getFromType(type);
 
-        if (!fromType.equals(TestAssertType.AND) || !fromType.equals(TestAssertType.OR)) {
+        if (!(fromType.equals(TestAssertType.AND) || fromType.equals(TestAssertType.OR))) {
             throw new RuntimeException("assert type is not AND or OR , cannot to GroupTestAssert");
         }
 

@@ -20,16 +20,16 @@ import java.util.Date;
 @Slf4j
 public class LoggerFactory {
 
-    private static String loggerRoot = FileHelper.getAppRoot() + "/log" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+    private static String loggerRoot = FileHelper.getAppRoot() + "/log/log" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
 
     @Getter
-    private static boolean isDebug = false;
+    private static boolean isDebug = true;
 
     private static boolean isRunning = false;
 
     private static MultiProcessor<Log> multiProcessor;
 
-    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger(loggerRoot + "/system.text");
+    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger( "system.text");
 
     public static void systemLog(String message, Object... objects) {
         SYSTEM_FILE_LOGGER.info(message, objects);
@@ -54,7 +54,7 @@ public class LoggerFactory {
     }
 
     public static void log(String message, String path) {
-        multiProcessor.add(new Log(message, path));
+        multiProcessor.add(new Log(message, loggerRoot + "/" + path + ".txt"));
     }
 
     @AllArgsConstructor
