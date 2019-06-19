@@ -57,10 +57,6 @@ public class LoggerFactory {
         multiProcessor.add(new Log(message, path));
     }
 
-    public static void setDebug(boolean isDebug) {
-        LoggerFactory.isDebug = isDebug;
-    }
-
     @AllArgsConstructor
     private static class Log {
         String message;

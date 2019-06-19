@@ -3,7 +3,7 @@
         <http-node name="createOrder">
             <input>
                 <!--用户信息-->
-                <param key="actionInfo" value="$ActionInfo{260#单踩}"></param>
+                <param key="actionInfo" value="$ACTION_INFO{260#单踩}"></param>
                 <!--接口入参json-->
                 <param key="data" value="input-json"></param>
             </input>
@@ -15,7 +15,7 @@
         <http-node name="modifyOrder">
             <input>
                 <!--用户信息-->
-                <param key="actionInfo" value="$ActionInfo{260#单踩}"></param>
+                <param key="actionInfo" value="$ACTION_INFO{260#单踩}"></param>
                 <!--接口入参json-->
                 <param key="data" value="input-json"></param>
             </input>
