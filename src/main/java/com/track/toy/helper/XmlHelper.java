@@ -12,6 +12,17 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 public class XmlHelper {
+	public static Element read(File file) {
+		try {
+			SAXReader saxReader = new SAXReader();
+			Document document = saxReader.read(file);
+			return document.getRootElement();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static Element read(String path) {
 		try {
 			SAXReader saxReader = new SAXReader();

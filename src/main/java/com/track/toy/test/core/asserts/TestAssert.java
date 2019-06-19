@@ -1,5 +1,6 @@
 package com.track.toy.test.core.asserts;
 
+import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Data;
 
@@ -12,6 +13,8 @@ public class TestAssert {
 
     //断言，通过表达式统一判断
     public boolean asserts(TestNode testNode) {
-        return this.isSuccess = type.judge(source, target);
+        String expressedSource = Constant.express(source);
+        String expressedTarget = Constant.express(target);
+        return this.isSuccess = type.judge(expressedSource, expressedTarget);
     }
 }

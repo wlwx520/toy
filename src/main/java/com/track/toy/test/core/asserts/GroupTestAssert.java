@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 
 @Data
 public class GroupTestAssert extends TestAssert {
+    public static final GroupTestAssert DEFAULT_TRUE_ASSERT = new GroupTestAssert();
+
     private boolean isAnd = true;
     private List<TestAssert> children = new ArrayList<>();
 
@@ -23,5 +25,8 @@ public class GroupTestAssert extends TestAssert {
         return this.isSuccess = isAnd ? stream.allMatch(predicate) : stream.anyMatch(predicate);
     }
 
-    public static final GroupTestAssert DEFAULT_TRUE_ASSERT = new GroupTestAssert();
+    public void addChild(TestAssert testAssert) {
+        children.add(testAssert);
+    }
+
 }

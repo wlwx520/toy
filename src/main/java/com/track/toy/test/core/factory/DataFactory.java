@@ -1,9 +1,14 @@
 package com.track.toy.test.core.factory;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.track.toy.graph.Graph;
 import com.track.toy.helper.FileHelper;
 import com.track.toy.helper.XmlHelper;
 import com.track.toy.test.core.Constant;
+import com.track.toy.test.core.asserts.GroupTestAssert;
+import com.track.toy.test.core.asserts.TestAssert;
+import com.track.toy.test.core.asserts.TestAssertType;
 import com.track.toy.test.core.common.TestGraph;
 import com.track.toy.test.core.common.TestGraphBuilder;
 import com.track.toy.test.core.node.HttpTestNode;
@@ -76,9 +81,140 @@ public class DataFactory {
         TestGraph testGraphCopy = testGraphTemplate.copy();
         Graph<TestNode, Double, String, String> dataCopy = testGraphTemplate.getTempGraphData().getPlusHandler()
                 .copy(testNode -> testNode.copy(testGraphCopy, dataName));
-        //TODO load data headNode logRoot
+
+        Element dataElement = XmlHelper.read(dataFile);
+
+        List<Element> nodeElementList = dataElement.elements("node");
+        if (nodeElementList != null) {
+            nodeElementList.forEach(nodeElement -> {
+                Element inputElement = nodeElement.element("input");
+                Element assertElement = nodeElement.element("assert");
+
+                JSONObject inputJson = new JSONObject();
+                toJsonObject(inputJson, inputElement);
+
+                GroupTestAssert groupTestAssert = new GroupTestAssert();
+                toAssertGroup(groupTestAssert, assertElement);
+
+                String name = nodeElement.attributeValue("name");
+                TestNode testNode = dataCopy.getNodeHandler().getNode(name);
+                testNode.setInput(inputJson);
+                testNode.setGroupTestAssert(groupTestAssert);
+            });
+        }
+
         testGraphCopy.loadData(dataCopy);
         return testGraphCopy;
+    }
+
+    private void toAssertGroup(GroupTestAssert groupTestAssert, Element assertElement) {
+        String type = assertElement.attributeValue("type");
+        TestAssertType fromType = TestAssertType.getFromType(type);
+
+        if (!fromType.equals(TestAssertType.AND) || !fromType.equals(TestAssertType.OR)) {
+            throw new RuntimeException("assert type is not AND or OR , cannot to GroupTestAssert");
+        }
+
+        if (fromType.equals(TestAssertType.AND)) {
+            groupTestAssert.setAnd(true);
+        }
+
+        if (fromType.equals(TestAssertType.OR)) {
+            groupTestAssert.setAnd(false);
+        }
+
+        List<Element> subAssertElementList = assertElement.elements("assert");
+        if (subAssertElementList != null) {
+            subAssertElementList.forEach(subAssertElement -> {
+                String subType = subAssertElement.attributeValue("type");
+                TestAssertType subFromType = TestAssertType.getFromType(subType);
+
+                if (subFromType.equals(TestAssertType.AND) || subFromType.equals(TestAssertType.OR)) {
+                    GroupTestAssert subGroupTestAssert = new GroupTestAssert();
+                    toAssertGroup(subGroupTestAssert, subAssertElement);
+                    groupTestAssert.addChild(subGroupTestAssert);
+                } else {
+                    TestAssert subTestAssert = new TestAssert();
+                    toAssert(subTestAssert, subAssertElement);
+                    groupTestAssert.addChild(subTestAssert);
+                }
+            });
+        }
+    }
+
+    private void toAssert(TestAssert testAssert, Element assertElement) {
+        String type = assertElement.attributeValue("type");
+        TestAssertType fromType = TestAssertType.getFromType(type);
+
+        if (fromType.equals(TestAssertType.AND) || fromType.equals(TestAssertType.OR)) {
+            throw new RuntimeException("assert type is AND or OR , cannot to TestAssert");
+        }
+
+        String source = assertElement.attributeValue("source");
+        String target = assertElement.attributeValue("target");
+        testAssert.setSource(source);
+        testAssert.setTarget(target);
+        testAssert.setType(fromType);
+    }
+
+    private void toJsonObject(JSONObject json, Element element) {
+        String key = element.attributeValue("key");
+        String value = element.attributeValue("value");
+        if (key == null) {
+            return;
+        }
+
+        if (value != null) {
+            json.put(key, value);
+            return;
+        }
+
+        List<Element> objectElementList = element.elements("object");
+        if (objectElementList != null) {
+            JSONObject sub = new JSONObject();
+            objectElementList.forEach(objectElement -> {
+                toJsonObject(sub, objectElement);
+            });
+            json.put(key, sub);
+        }
+
+        List<Element> arrayElementList = element.elements("array");
+        if (objectElementList != null) {
+            JSONArray array = new JSONArray();
+            arrayElementList.forEach(objectElement -> {
+                toJsonArray(array, objectElement);
+            });
+            json.put(key, array);
+        }
+    }
+
+    private void toJsonArray(JSONArray array, Element element) {
+        List<Element> itemElementList = element.elements("item");
+        if (itemElementList != null) {
+            itemElementList.forEach(itemElement -> {
+                String value = itemElement.attributeValue("value");
+                if (value != null) {
+                    array.add(value);
+                    return;
+                }
+
+                Element objectElement = element.element("object");
+                if (objectElement != null) {
+                    JSONObject sub = new JSONObject();
+                    toJsonObject(sub, objectElement);
+                    array.add(sub);
+                    return;
+                }
+
+                Element arrayElement = element.element("array");
+                if (arrayElement != null) {
+                    JSONArray subArray = new JSONArray();
+                    toJsonArray(subArray, arrayElement);
+                    array.add(subArray);
+                    return;
+                }
+            });
+        }
     }
 
     private File pollFile() {
