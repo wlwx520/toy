@@ -8,14 +8,11 @@ public class FileLogger {
     private String path;
 
     public void info(String message, Object... objects) {
-        if (objects == null || objects.length == 0) {
-            LoggerFactory.log(message, path);
-            return;
-        }
-
         String newMessage = message;
-        for (Object object : objects) {
-            newMessage = message.replace("{}", object.toString());
+        if (objects != null) {
+            for (Object object : objects) {
+                newMessage = message.replace("{}", object.toString());
+            }
         }
         LoggerFactory.log(newMessage, path);
     }
