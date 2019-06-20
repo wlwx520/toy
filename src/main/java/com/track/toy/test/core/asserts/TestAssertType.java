@@ -1,7 +1,6 @@
 package com.track.toy.test.core.asserts;
 
 import java.util.Arrays;
-import java.util.List;
 
 public enum TestAssertType implements ITestAssertJudge {
     AND {
@@ -58,8 +57,8 @@ public enum TestAssertType implements ITestAssertJudge {
         @Override
         public boolean judge(Object source, Object target) {
             String[] split = source.toString().split(",");
-            if(split==null||split.length==0){
-                return target==null||target.toString().trim().isEmpty();
+            if (split == null || split.length == 0) {
+                return target == null || target.toString().trim().isEmpty();
             }
             return Arrays.asList(split).contains(target.toString());
         }
