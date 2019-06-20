@@ -1,52 +1,81 @@
 package com.track.toy.test.core.asserts;
 
-import java.util.Arrays;
+import java.util.List;
 
-public enum TestAssertType {
+public enum TestAssertType implements ITestAssertJudge {
     AND {
+        @Override
+        public boolean judge(Object source, Object target) {
+            return true;
+        }
     },
     OR {
+        @Override
+        public boolean judge(Object source, Object target) {
+            return true;
+        }
     },
     GTE {
-        public boolean judge(String source, String target) {
-            return source.compareTo(target) >= 0;
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((Comparable) source).compareTo((Comparable) target) >= 0;
         }
     },
     GT {
-        public boolean judge(String source, String target) {
-            return source.compareTo(target) > 0;
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((Comparable) source).compareTo((Comparable) target) > 0;
         }
     },
     LTE {
-        public boolean judge(String source, String target) {
-            return source.compareTo(target) <= 0;
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((Comparable) source).compareTo((Comparable) target) <= 0;
         }
     },
     LT {
-        public boolean judge(String source, String target) {
-            return source.compareTo(target) < 0;
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((Comparable) source).compareTo((Comparable) target) < 0;
         }
     },
     NOT {
-        public boolean judge(String source, String target) {
-            return source.compareTo(target) != 0;
+        public boolean judge(Object source, Object target) {
+            if (source == null) {
+                return target == null;
+            }
+            return !source.equals(target);
         }
     },
     CONTAINS {
-        public boolean judge(String source, String target) {
-            if (source.trim().isEmpty()) {
-                return target.trim().isEmpty();
-            }
-            return Arrays.asList(source.split(",")).contains(target);
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((List) source).contains(target);
         }
-    }
+    },
+    NOT_NULL {
+        @Override
+        public boolean judge(Object source, Object target) {
+            return source != null;
+        }
+    },
+    IS_NUMBER {
+        @Override
+        public boolean judge(Object source, Object target) {
+            if (source == null) {
+                return false;
+            }
+            try {
+                Double.valueOf(source.toString());
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    },
 
     //=============================================================================
     ;
-
-    public boolean judge(String source, String target) {
-        return true;
-    }
 
     public static TestAssertType getFromType(String type) {
         if (type == null) {

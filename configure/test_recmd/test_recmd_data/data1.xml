@@ -10,7 +10,8 @@
             </array>
         </input>
         <assert type="AND">
-            <assert type="not" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="$NULL{}"/>
+            <assert type="not_null" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
+            <assert type="is_number" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
             <assert type="gt" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
         </assert>
     </node>
@@ -22,7 +23,8 @@
             <object key="data" value="input-json"></object>
         </input>
         <assert type="AND">
-            <assert type="not" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="$NULL{}"/>
+            <assert type="not_null" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
+            <assert type="is_number" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
             <assert type="gt" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
         </assert>
     </node>

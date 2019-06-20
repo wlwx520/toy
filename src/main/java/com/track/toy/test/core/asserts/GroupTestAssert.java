@@ -22,7 +22,8 @@ public class GroupTestAssert extends TestAssert {
         }
         Stream<TestAssert> stream = children.stream();
         Predicate<TestAssert> predicate = child -> child.asserts(testNode);
-        return this.isSuccess = isAnd ? stream.allMatch(predicate) : stream.anyMatch(predicate);
+        this.isSuccess = isAnd ? stream.allMatch(predicate) : stream.anyMatch(predicate);
+        return this.isSuccess;
     }
 
     public void addChild(TestAssert testAssert) {

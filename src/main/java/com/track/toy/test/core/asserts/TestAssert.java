@@ -13,8 +13,9 @@ public class TestAssert {
 
     //断言，通过表达式统一判断
     public boolean asserts(TestNode testNode) {
-        String expressedSource = Constant.express(source, testNode.getTestGraph().getTempGraphData());
-        String expressedTarget = Constant.express(target, testNode.getTestGraph().getTempGraphData());
-        return this.isSuccess = type.judge(expressedSource, expressedTarget);
+        Object expressedSource = Constant.express(source, testNode.getTestGraph().getTempGraphData());
+        Object expressedTarget = Constant.express(target, testNode.getTestGraph().getTempGraphData());
+        this.isSuccess = type.judge(expressedSource, expressedTarget);
+        return this.isSuccess;
     }
 }

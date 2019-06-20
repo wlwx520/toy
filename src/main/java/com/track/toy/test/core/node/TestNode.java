@@ -104,7 +104,9 @@ public abstract class TestNode {
         if (!isSuccess) {
             testGraph.stopTest();
             testGraph.getTempGraphData().getNodeHandler().getAllNode().forEach(node -> {
-                node.lock.notifyAll();
+                synchronized (node.lock) {
+                    node.lock.notifyAll();
+                }
             });
             fileLogger.debug("to fail , stop testing and notify all");
             return;
