@@ -70,7 +70,7 @@ public class HttpHelper {
 			return bos.toString("utf-8");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return "Failed!" + httpStatusCode;
 		} finally {
 			if (out != null) {

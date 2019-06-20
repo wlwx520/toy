@@ -114,6 +114,10 @@ public class DataFactory {
         return testGraphCopy;
     }
 
+    public void shuntDown(){
+        testGraphTemplate.shuntDown();
+    }
+
     private void toAssertGroup(GroupTestAssert groupTestAssert, Element assertElement) {
         String type = assertElement.attributeValue("type");
         TestAssertType fromType = TestAssertType.getFromType(type);

@@ -49,10 +49,13 @@ public class TestApplicationContext {
                 //开启测试
                 tempTestGraph.doTest();
             }
+
+            dataFactory.shuntDown();
         }
 
         //主线程等待所有日志线程返回
         LoggerFactory.stopLog();
+
     }
 
 

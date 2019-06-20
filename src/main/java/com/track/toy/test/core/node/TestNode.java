@@ -121,8 +121,13 @@ public abstract class TestNode {
             testGraph.execute(() -> {
                 synchronized (targetTestNode.getData().lock) {
                     targetTestNode.getData().fileLogger.debug("to start or notify from = {}", name);
-                    targetTestNode.getData().doTest();
-                    targetTestNode.getData().lock.notifyAll();
+                    try {
+                        targetTestNode.getData().doTest();
+                    } catch (Exception e) {
+                        targetTestNode.getData().fileLogger.info("to doTest exception name = {}", name);
+                    } finally {
+                        targetTestNode.getData().lock.notifyAll();
+                    }
                 }
             });
         });

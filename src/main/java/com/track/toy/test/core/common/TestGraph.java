@@ -5,7 +5,6 @@ import com.track.toy.graph.Graph;
 import com.track.toy.test.core.factory.LoggerFactory;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +57,16 @@ public class TestGraph {
 
         //开启图的头节点测试，将自动进行节点探索并向下进行测试
         execute(() -> {
-            tempGraphData.getNodeHandler().getNode(HEAD_NODE).doTest();
+            TestNode headNode = tempGraphData.getNodeHandler().getNode(HEAD_NODE);
+            synchronized (headNode.getLock()) {
+                try {
+                    headNode.doTest();
+                } catch (Exception e) {
+                    headNode.getFileLogger().info("to doTest exception name = {}", headNode.getName());
+                } finally {
+                    headNode.getLock().notifyAll();
+                }
+            }
         });
 
         //主线程等待所有测试线程返回，等待计数锁归0
@@ -66,6 +74,12 @@ public class TestGraph {
 
         //停止测试
         stopTest();
+
+        shuntDown();
+    }
+
+    public void shuntDown() {
+        EXECUTOR_SERVICE.shutdown();
     }
 
     public void execute(Runnable runnable) {
