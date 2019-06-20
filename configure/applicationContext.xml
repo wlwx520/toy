@@ -5,6 +5,6 @@
     </properties>
 
     <test-graph switch="true"
-                path="$CONFIGURE[]//test_recmd//test_recmd_graph.xml"
-                dataFolder="$CONFIGURE[]//test_recmd//test_recmd_data"/>
+                path="$CONFIGURE()//test_recmd//test_recmd_graph.xml"
+                dataFolder="$CONFIGURE()//test_recmd//test_recmd_data"/>
 </context>

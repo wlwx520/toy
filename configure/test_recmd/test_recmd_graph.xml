@@ -1,15 +1,15 @@
 <graph>
     <head name="headNode"/>
     <http-node name="getTaskScore"
-               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+               url="$PROPERTY(task-server)//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <http-node name="checkAccessNew"
-               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.CheckAccessService//checkAccessNew"/>
+               url="$PROPERTY(task-server)//api//com.zbj.task.controller.service.CheckAccessService//checkAccessNew"/>
     <http-node name="getTaskScore2"
-               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+               url="$PROPERTY(task-server)//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <http-node name="getTaskScore3"
-               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+               url="$PROPERTY(task-server)//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <http-node name="getTaskScore4"
-               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+               url="$PROPERTY(task-server)//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <tail name="tailNode"/>
 
     <link source="headNode" target="getTaskScore"/>

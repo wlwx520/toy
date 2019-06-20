@@ -10,7 +10,6 @@ import com.track.toy.test.core.node.TestNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 public class DataExpression {
     public static void init() {
@@ -20,7 +19,7 @@ public class DataExpression {
 
         Constant.addFilter("$COLLECT", (origin, objects) -> {
             String[] split = origin.split("#");
-            if (split == null || split.length < 2) {
+            if (split == null || split.length < 1) {
                 throw new RuntimeException("expression of COLLECT error");
             }
 
@@ -35,11 +34,9 @@ public class DataExpression {
                 throw new RuntimeException("json error json = " + json + " param = " + params);
             }
 
-            return array.stream().map(item1 -> {
-                String itemJsonString = JSONObject.toJSONString(item1);
-                String value = getValue(itemJsonString, params);
-                return value;
-            }).reduce((sum, item) -> sum + item + ",").get();
+            params.remove(0);
+
+            return array.stream().map(collectItem -> getValue(JSONObject.toJSONString(collectItem), params)).reduce((sum, item) -> sum + ","+ item ).get();
         });
 
         Constant.addFilter("$DATA", (origin, objects) -> {
