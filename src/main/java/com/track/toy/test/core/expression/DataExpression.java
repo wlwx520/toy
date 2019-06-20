@@ -36,7 +36,11 @@ public class DataExpression {
 
             params.remove(0);
 
-            return array.stream().map(collectItem -> getValue(JSONObject.toJSONString(collectItem), params)).reduce((sum, item) -> sum + ","+ item ).get();
+            return array.stream().map(collectItem -> {
+                List<String> tempParams = new ArrayList<>();
+                tempParams.addAll(params);
+                return getValue(JSONObject.toJSONString(collectItem), tempParams);
+            }).reduce((sum, item) -> sum + "," + item).get();
         });
 
         Constant.addFilter("$DATA", (origin, objects) -> {
