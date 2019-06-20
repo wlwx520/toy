@@ -1,8 +1,6 @@
 <data>
     <node name="confirmIncomeSubPop1">
         <input>
-            <!--用户信息-->
-            <!--<object key="actionInfo" value="$ACTION_INFO{260#单踩}"/>-->
             <!--接口入参json-->
             <object key="data" value="1000102118">
             </object>
@@ -14,8 +12,6 @@
     </node>
     <node name="confirmIncomeSubPop2">
         <input>
-            <!--用户信息-->
-            <!--<object key="actionInfo" value="$ACTION_INFO{260#单踩}"></object>-->
             <!--接口入参json-->
             <object key="data" value="1000102118"></object>
         </input>
