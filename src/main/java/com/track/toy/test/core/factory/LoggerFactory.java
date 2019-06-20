@@ -29,7 +29,7 @@ public class LoggerFactory {
 
     private static MultiProcessor<Log> multiProcessor;
 
-    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger( "system.text");
+    private static final FileLogger SYSTEM_FILE_LOGGER = new FileLogger("system.text");
 
     public static void systemLog(String message, Object... objects) {
         SYSTEM_FILE_LOGGER.info(message, objects);
@@ -40,6 +40,9 @@ public class LoggerFactory {
     }
 
     public static void startLog() {
+        String logLevel = ConfigureFactory.get("log-level");
+        LoggerFactory.isDebug = logLevel != null && logLevel.toLowerCase().equals("debug");
+
         if (LoggerFactory.isRunning) {
             log.info("file log is running");
             return;

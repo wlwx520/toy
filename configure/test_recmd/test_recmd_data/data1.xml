@@ -13,11 +13,14 @@
     <node name="confirmIncomeSubPop2">
         <input>
             <!--接口入参json-->
-            <object key="data" value="1000102118"></object>
+            <object key="data">
+                <object key="orderId" value="217018285355450368"></object>
+                <object key="userId" value="19182255"></object>
+            </object>
         </input>
         <assert type="AND">
             <assert type="is_number" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target=""/>
-            <assert type="eq" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target="95"/>
+            <assert type="gt" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target="0"/>
         </assert>
     </node>
 </data>

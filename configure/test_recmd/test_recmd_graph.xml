@@ -2,7 +2,7 @@
     <http-node name="confirmIncomeSubPop1"
                url="$PROPERTY{task-server}//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <http-node name="confirmIncomeSubPop2"
-               url="$PROPERTY{task-server}//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+               url="$PROPERTY{task-server}//api//com.zbj.task.controller.service.CheckAccessService//checkAccessNew"/>
 
     <link source="headNode" target="confirmIncomeSubPop1"/>
     <link source="confirmIncomeSubPop1" target="confirmIncomeSubPop2"/>
