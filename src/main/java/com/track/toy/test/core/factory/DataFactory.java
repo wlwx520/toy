@@ -100,6 +100,8 @@ public class DataFactory {
                 JSONObject inputJson = new JSONObject();
                 toJsonObject(inputJson, inputElement);
 
+                String test = inputJson.toJSONString();
+
                 GroupTestAssert groupTestAssert = new GroupTestAssert();
                 toAssertGroup(groupTestAssert, assertElement);
 
@@ -114,7 +116,7 @@ public class DataFactory {
         return testGraphCopy;
     }
 
-    public void shuntDown(){
+    public void shuntDown() {
         testGraphTemplate.shuntDown();
     }
 
@@ -171,6 +173,11 @@ public class DataFactory {
     private void toJsonObject(JSONObject json, Element element) {
         String key = element.attributeValue("key");
         String value = element.attributeValue("value");
+
+        if (element.getName().equals("input")) {
+            key = "param";
+        }
+
         if (key == null) {
             return;
         }
@@ -181,21 +188,35 @@ public class DataFactory {
         }
 
         List<Element> objectElementList = element.elements("object");
-        if (objectElementList != null) {
-            JSONObject sub = new JSONObject();
-            objectElementList.forEach(objectElement -> {
+        if (objectElementList != null&&!objectElementList.isEmpty()) {
+            JSONObject sub = json.getJSONObject(key);
+            if (sub == null) {
+                sub = new JSONObject();
+            }
+
+            for (Element objectElement : objectElementList) {
                 toJsonObject(sub, objectElement);
-            });
+            }
             json.put(key, sub);
         }
 
         List<Element> arrayElementList = element.elements("array");
-        if (objectElementList != null) {
-            JSONArray array = new JSONArray();
-            arrayElementList.forEach(objectElement -> {
-                toJsonArray(array, objectElement);
-            });
-            json.put(key, array);
+        if (arrayElementList != null&&!arrayElementList.isEmpty()) {
+            for (Element arrayElement : arrayElementList) {
+                String arrayKey = arrayElement.attributeValue("key");
+                if (arrayKey == null) {
+                    return;
+                }
+
+                JSONArray array = json.getJSONArray(arrayKey);
+                if (array == null) {
+                    array = new JSONArray();
+                }
+                toJsonArray(array, arrayElement);
+                JSONObject sub = new JSONObject();
+                sub.put(arrayKey,array);
+                json.put(key, sub);
+            }
         }
     }
 

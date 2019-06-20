@@ -1,31 +1,27 @@
 <data>
-    <node name="createOrder">
+    <node name="confirmIncomeSubPop1">
         <input>
             <!--用户信息-->
-            <object key="actionInfo" value="$ACTION_INFO{260#单踩}"/>
+            <!--<object key="actionInfo" value="$ACTION_INFO{260#单踩}"/>-->
             <!--接口入参json-->
-            <object key="data" value="input-json"/>
-            <array key="test">
-                <item value="123"></item>
-            </array>
+            <object key="data" value="1000102118">
+            </object>
         </input>
         <assert type="AND">
-            <assert type="not_null" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
-            <assert type="is_number" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
-            <assert type="gt" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
+            <assert type="is_number" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target=""/>
+            <assert type="eq" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target="95"/>
         </assert>
     </node>
-    <node name="modifyOrder">
+    <node name="confirmIncomeSubPop2">
         <input>
             <!--用户信息-->
-            <object key="actionInfo" value="$ACTION_INFO{260#单踩}"></object>
+            <!--<object key="actionInfo" value="$ACTION_INFO{260#单踩}"></object>-->
             <!--接口入参json-->
-            <object key="data" value="input-json"></object>
+            <object key="data" value="1000102118"></object>
         </input>
         <assert type="AND">
-            <assert type="not_null" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
-            <assert type="is_number" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target=""/>
-            <assert type="gt" source="{$DATA{createOrder#OUTPUT#data#order_id}}" target="0"/>
+            <assert type="is_number" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target=""/>
+            <assert type="eq" source="$DATA{confirmIncomeSubPop1#OUTPUT#data}" target="95"/>
         </assert>
     </node>
 </data>

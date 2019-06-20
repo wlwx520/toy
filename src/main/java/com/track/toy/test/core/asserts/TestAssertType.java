@@ -15,6 +15,12 @@ public enum TestAssertType implements ITestAssertJudge {
             return true;
         }
     },
+    EQ {
+        @Override
+        public boolean judge(Object source, Object target) {
+            return ((Comparable) source).compareTo((Comparable) target) == 0;
+        }
+    },
     GTE {
         @Override
         public boolean judge(Object source, Object target) {

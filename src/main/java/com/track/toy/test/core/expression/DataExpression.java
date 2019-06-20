@@ -7,6 +7,7 @@ import com.track.toy.test.core.Constant;
 import com.track.toy.test.core.factory.ConfigureFactory;
 import com.track.toy.test.core.node.TestNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,13 +41,16 @@ public class DataExpression {
                 throw new RuntimeException("expression of DATA error , testNode not found name = " + testNodeName);
             }
 
-            if (!"INPUT".equals(inOrOut) || !"OUTPUT".equals(inOrOut)) {
+            if (!("INPUT".equals(inOrOut) || "OUTPUT".equals(inOrOut))) {
                 throw new RuntimeException("expression of DATA error , must be INPUT or OUTPUT");
             }
 
             String json = "INPUT".equals(inOrOut) ? testNode.getInput().toJSONString() : testNode.getOutput().toJSONString();
 
-            List<String> params = Arrays.asList(split);
+            List<String> params = new ArrayList<>();
+
+            params.addAll(Arrays.asList(split));
+
             params.remove(0);
             params.remove(0);
 

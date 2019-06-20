@@ -1,7 +1,7 @@
 <context>
     <properties>
         <property key="log-level" value="debug"/>
-        <property key="server-ip" value="192.168.0.0:8087"/>
+        <property key="task-server" value="http://10.201.205.19:8087"/>
     </properties>
 
     <test-graph switch="true"

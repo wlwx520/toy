@@ -19,10 +19,17 @@ public class HttpTestNode extends TestNode {
 
     @Override
     public void testSelf() {
-        String postResult = HttpHelper.post(
-                Constant.express(this.url),
-                this.input == null ? "" : Constant.express(this.input.toJSONString()));
+        String url = Constant.express(this.url);
+        String inputString;
+        if (this.input == null) {
+            inputString = "param={}";
+        } else {
+            String express = Constant.express(this.input.toJSONString());
+            String param = JSONObject.parseObject(express).get("param").toString();
+            inputString = "param=" + param;
+        }
 
+        String postResult = HttpHelper.post(url, inputString);
         try {
             this.output = JSON.parseObject(postResult);
         } catch (Exception e) {

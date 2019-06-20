@@ -1,8 +1,10 @@
 <graph>
-    <http-node name="createOrder" url="/api/com.zbj.task.controller.service.BusinessService/createBusinessNew"/>
-    <http-node name="modifyOrder" url="/api/com.zbj.task.controller.service.BusinessService/modifyBusiness"/>
+    <http-node name="confirmIncomeSubPop1"
+               url="$PROPERTY{task-server}//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+    <http-node name="confirmIncomeSubPop2"
+               url="$PROPERTY{task-server}//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
 
-    <link source="headNode" target="createOrder"/>
-    <link source="createOrder" target="modifyOrder"/>
-    <link source="modifyOrder" target="tailNode"/>
+    <link source="headNode" target="confirmIncomeSubPop1"/>
+    <link source="confirmIncomeSubPop1" target="confirmIncomeSubPop2"/>
+    <link source="confirmIncomeSubPop2" target="tailNode"/>
 </graph>
