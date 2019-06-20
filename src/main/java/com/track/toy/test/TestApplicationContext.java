@@ -18,6 +18,8 @@ public class TestApplicationContext {
     private static final List<DataFactory> DATA_FACTORIES = new ArrayList<>();
 
     public static void main(String[] args) {
+        System.out.println("start test ...");
+
         //初始化表达式
         Constant.initExpression();
 

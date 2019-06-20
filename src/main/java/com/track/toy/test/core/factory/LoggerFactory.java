@@ -49,6 +49,19 @@ public class LoggerFactory {
         }
         LoggerFactory.isRunning = true;
         LoggerFactory.multiProcessor = new MultiProcessor<>(10_000, 20, Log::toWrite);
+
+        Thread daemon = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("testing , please wait ...");
+            }
+        });
+        daemon.setDaemon(true);
+        daemon.start();
     }
 
     public static void stopLog() {
