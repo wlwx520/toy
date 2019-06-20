@@ -2,6 +2,7 @@ package com.track.toy;
 
 import com.alibaba.fastjson.JSON;
 import com.track.toy.test.core.Constant;
+import com.track.toy.test.core.asserts.TestAssertType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,6 +26,9 @@ public class Test {
         String express = Constant.express(a);
 
         System.out.println(express);
+
+        boolean s1 = TestAssertType.CONTAINS.judge(express, "s1");
+        System.out.println(s1);
     }
 
     @AllArgsConstructor
