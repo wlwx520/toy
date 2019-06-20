@@ -73,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.cloudwalk.test.app.App</mainClass>
+                            <mainClass>com.track.toy.test.TestApplicationContext</mainClass>
                         </manifest>
                     </archive>
                     <descriptors>
