@@ -42,10 +42,6 @@ public class LoggerFactory {
         SYSTEM_FILE_LOGGER.info(message, objects);
     }
 
-    public static FileLogger initFileLogger(String fileName) {
-        return new FileLogger(loggerRoot + "/" + fileName);
-    }
-
     public static void startLog() {
         String logLevel = ConfigureFactory.get("log-level");
         LoggerFactory.isDebug = logLevel != null && logLevel.toLowerCase().equals("debug");
