@@ -1,10 +1,10 @@
 <context>
     <properties>
         <property key="log-level" value="debug"/>
-        <property key="task-server" value="http://10.201.205.19:8087"/>
+        <property key="task-server" value="http://10.201.19.148:8087"/>
     </properties>
 
     <test-graph switch="true"
-                path="$CONFIGURE{}//test_recmd//test_recmd_graph.xml"
-                dataFolder="$CONFIGURE{}//test_recmd//test_recmd_data"/>
+                path="$CONFIGURE[]//test_recmd//test_recmd_graph.xml"
+                dataFolder="$CONFIGURE[]//test_recmd//test_recmd_data"/>
 </context>

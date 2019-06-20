@@ -53,8 +53,12 @@ public class TestApplicationContext {
             dataFactory.shuntDown();
         }
 
+        LoggerFactory.systemLog("test end ...");
+
         //主线程等待所有日志线程返回
         LoggerFactory.stopLog();
+
+        System.out.println("test end ...");
 
     }
 

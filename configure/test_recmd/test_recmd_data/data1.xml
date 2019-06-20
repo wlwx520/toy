@@ -6,8 +6,8 @@
             </object>
         </input>
         <assert type="AND">
-            <assert type="is_number" source="$DATA{getTaskScore#OUTPUT#data}" target=""/>
-            <assert type="eq" source="$DATA{getTaskScore#OUTPUT#data}" target="95"/>
+            <assert type="is_number" source="$DATA[getTaskScore#OUTPUT#data]" target=""/>
+            <assert type="eq" source="$DATA[getTaskScore#OUTPUT#data]" target="95"/>
         </assert>
     </node>
     <node name="checkAccessNew">
@@ -16,11 +16,12 @@
             <object key="data">
                 <object key="orderId" value="217018285355450368"></object>
                 <object key="userId" value="19182255"></object>
+                <object key="testValue" value="$DATA[getTaskScore#OUTPUT#data]"></object>
             </object>
         </input>
         <assert type="AND">
-            <assert type="is_number" source="$DATA{checkAccessNew#OUTPUT#data}" target=""/>
-            <assert type="gt" source="$DATA{checkAccessNew#OUTPUT#data}" target="0"/>
+            <assert type="is_number" source="$DATA[checkAccessNew#OUTPUT#data]" target=""/>
+            <assert type="gt" source="$DATA[checkAccessNew#OUTPUT#data]" target="0"/>
         </assert>
     </node>
 </data>

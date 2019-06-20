@@ -67,13 +67,13 @@ public class ExpressionHelper {
 				throw new ExpressionException("expression error,the key is not allow $");
 			}
 
-			if (isExpression && isKey && (charAt == '{')) {
+			if (isExpression && isKey && (charAt == '[')) {
 				index++;
 				isKey = false;
 				continue;
 			}
 
-			if (isExpression && isKey && !(charAt == '{')) {
+			if (isExpression && isKey && !(charAt == ']')) {
 				index++;
 				key.append(charAt);
 				continue;
@@ -117,18 +117,18 @@ public class ExpressionHelper {
 				continue;
 			}
 
-			if (isExpression && !isKey && !skip && charAt == '}' && expressionCurrentCount != 0) {
+			if (isExpression && !isKey && !skip && charAt == ']' && expressionCurrentCount != 0) {
 				index++;
 				content.append(charAt);
 				expressionCurrentCount--;
 				continue;
 			}
 
-			if (isExpression && !isKey && !skip && charAt == '}' && expressionCurrentCount == 0 && !simple) {
+			if (isExpression && !isKey && !skip && charAt == ']' && expressionCurrentCount == 0 && !simple) {
 				index++;
 				ExpressionFilter expressionFilter = filters.get("$" + key.toString());
 				if (expressionFilter == null) {
-					throw new ExpressionException("this key of filter is not exsits, key = " + key.toString());
+					throw new ExpressionException("this key of filter is not exits, key = " + key.toString());
 				}
 				result.append(expressionFilter.expressionFilter(expressionFilter(content.toString(), objs), objs));
 				isExpression = false;
@@ -140,11 +140,11 @@ public class ExpressionHelper {
 				continue;
 			}
 
-			if (isExpression && !isKey && !skip && charAt == '}' && expressionCurrentCount == 0 && simple) {
+			if (isExpression && !isKey && !skip && charAt == ']' && expressionCurrentCount == 0 && simple) {
 				index++;
 				ExpressionFilter expressionFilter = filters.get("$" + key.toString());
 				if (expressionFilter == null) {
-					throw new ExpressionException("this key of filter is not exsits, key = " + key.toString());
+					throw new ExpressionException("this key of filter is not exits, key = " + key.toString());
 				}
 				result.append(expressionFilter.expressionFilter(content.toString(), objs));
 				isExpression = false;
@@ -168,12 +168,12 @@ public class ExpressionHelper {
 
 	private boolean check(String origin) {
 		origin = origin.replaceAll("/\\$", "");
-		origin = origin.replaceAll("/\\{", "");
-		origin = origin.replaceAll("/\\}", "");
+		origin = origin.replaceAll("/\\[", "");
+		origin = origin.replaceAll("/\\]", "");
 
 		int indexOf1 = origin.indexOf("$");
-		int indexOf2 = origin.indexOf("{");
-		int indexOf3 = origin.lastIndexOf("}");
+		int indexOf2 = origin.indexOf("[");
+		int indexOf3 = origin.lastIndexOf("]");
 
 		if (indexOf1 * indexOf2 * indexOf3 < 0) {
 			return false;

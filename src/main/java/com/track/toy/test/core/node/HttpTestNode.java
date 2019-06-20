@@ -24,10 +24,12 @@ public class HttpTestNode extends TestNode {
         if (this.input == null) {
             inputString = "param={}";
         } else {
-            String express = Constant.express(this.input.toJSONString());
+            String express = Constant.express(this.input.toJSONString(),testGraph.getTempGraphData());
             String param = JSONObject.parseObject(express).get("param").toString();
             inputString = "param=" + param;
         }
+
+        fileLogger.info("inputString = {}",inputString);
 
         String postResult = HttpHelper.post(url, inputString);
         try {
