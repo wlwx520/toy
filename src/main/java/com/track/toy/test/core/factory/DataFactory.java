@@ -47,9 +47,31 @@ public class DataFactory {
         LoggerFactory.systemLog("load template path = {} , dataFolder = {}", expressedPath, expressedDataFolder);
 
         Element templateElement = XmlHelper.read(expressedPath);
+
+        Element head = templateElement.element("head");
+        if(head==null){
+            throw new RuntimeException("head node not exists");
+        }
+        if (!TestGraph.HEAD_NODE.equals(head.attributeValue("name"))) {
+            throw new RuntimeException("head node name must be headNode");
+        }
+        HeadNode headNode = new HeadNode(testGraphTemplate, TestGraph.HEAD_NODE);
+        templateGraph.getNodeHandler().newNode(headNode);
+
+        Element tail = templateElement.element("tail");
+        if(tail==null){
+            throw new RuntimeException("head node not exists");
+        }
+        if (!TestGraph.TAIL_NODE.equals(tail.attributeValue("name"))) {
+            throw new RuntimeException("head node name must be headNode");
+        }
+        String tailPrepare = tail.attributeValue("prepare");
+        PrepareType tailPrepareType = tailPrepare == null || tailPrepare.trim().isEmpty() ? PrepareType.ALL : PrepareType.getFromName(tailPrepare);
+        String tailPrepareValue = tail.attributeValue("prepareValue");
+        TailNode tailNode = new TailNode(testGraphTemplate, TestGraph.HEAD_NODE, tailPrepareType, tailPrepareValue);
+        templateGraph.getNodeHandler().newNode(tailNode);
+
         List<Element> httpNodeElementList = templateElement.elements("http-node");
-        templateGraph.getNodeHandler().newNode(new HeadNode(testGraphTemplate, "headNode"));
-        templateGraph.getNodeHandler().newNode(new TailNode(testGraphTemplate, "tailNode"));
         if (httpNodeElementList != null) {
             httpNodeElementList.forEach(httpNodeElement -> {
                 String name = httpNodeElement.attributeValue("name");
@@ -99,8 +121,6 @@ public class DataFactory {
 
                 JSONObject inputJson = new JSONObject();
                 toJsonObject(inputJson, inputElement);
-
-                String test = inputJson.toJSONString();
 
                 GroupTestAssert groupTestAssert = new GroupTestAssert();
                 toAssertGroup(groupTestAssert, assertElement);
@@ -188,7 +208,7 @@ public class DataFactory {
         }
 
         List<Element> objectElementList = element.elements("object");
-        if (objectElementList != null&&!objectElementList.isEmpty()) {
+        if (objectElementList != null && !objectElementList.isEmpty()) {
             JSONObject sub = json.getJSONObject(key);
             if (sub == null) {
                 sub = new JSONObject();
@@ -201,7 +221,7 @@ public class DataFactory {
         }
 
         List<Element> arrayElementList = element.elements("array");
-        if (arrayElementList != null&&!arrayElementList.isEmpty()) {
+        if (arrayElementList != null && !arrayElementList.isEmpty()) {
             for (Element arrayElement : arrayElementList) {
                 String arrayKey = arrayElement.attributeValue("key");
                 if (arrayKey == null) {
@@ -214,7 +234,7 @@ public class DataFactory {
                 }
                 toJsonArray(array, arrayElement);
                 JSONObject sub = new JSONObject();
-                sub.put(arrayKey,array);
+                sub.put(arrayKey, array);
                 json.put(key, sub);
             }
         }

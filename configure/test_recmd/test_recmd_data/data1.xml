@@ -24,4 +24,37 @@
             <assert type="gt" source="$DATA[checkAccessNew#OUTPUT#data]" target="0"/>
         </assert>
     </node>
+    <node name="getTaskScore2">
+        <input>
+            <!--接口入参json-->
+            <object key="data" value="1000102118">
+            </object>
+        </input>
+        <assert type="AND">
+            <assert type="is_number" source="$DATA[getTaskScore#OUTPUT#data]" target=""/>
+            <assert type="eq" source="$DATA[getTaskScore#OUTPUT#data]" target="95"/>
+        </assert>
+    </node>
+    <node name="getTaskScore3">
+        <input>
+            <!--接口入参json-->
+            <object key="data" value="1000102118">
+            </object>
+        </input>
+        <assert type="AND">
+            <assert type="is_number" source="$DATA[getTaskScore#OUTPUT#data]" target=""/>
+            <assert type="eq" source="$DATA[getTaskScore#OUTPUT#data]" target="95"/>
+        </assert>
+    </node>
+    <node name="getTaskScore4">
+        <input>
+            <!--接口入参json-->
+            <object key="data" value="1000102118">
+            </object>
+        </input>
+        <assert type="AND">
+            <assert type="is_number" source="$DATA[getTaskScore#OUTPUT#data]" target=""/>
+            <assert type="eq" source="$DATA[getTaskScore#OUTPUT#data]" target="95"/>
+        </assert>
+    </node>
 </data>

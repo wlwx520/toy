@@ -5,13 +5,14 @@ import com.track.toy.graph.Graph;
 import com.track.toy.test.core.factory.LoggerFactory;
 import com.track.toy.test.core.node.TestNode;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TestGraph {
-    public static final String HEAD_NODE = "headNode";
-    public static final String TAIL_NODE = "tailNode";
+    public static String TAIL_NODE = "tailNode";
+    public static String HEAD_NODE = "headNode";
 
     @Getter
     private String path;

@@ -7,15 +7,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class LoggerFactory {
@@ -78,20 +85,53 @@ public class LoggerFactory {
         String message;
         String path;
 
+        private static final Map<String, Object> LOCK_MAP = new ConcurrentHashMap<>();
+
         private void toWrite() {
             File file = new File(path);
             FileHelper.createDirAndFileIfNotExists(file);
 
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
-                writer.write(message);
-                writer.newLine();
-                writer.newLine();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            Object lock = LOCK_MAP.get(path);
+            if (lock == null) {
+                lock = new Object();
+                LOCK_MAP.put(path, lock);
+            }
+
+            synchronized (lock) {
+                List<String> lines = null;
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"))) {
+                    lines = reader.lines().collect(Collectors.toList());
+                    lines.add(message);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"))) {
+                    if (lines != null) {
+                        lines.stream()
+                                .filter(line -> line.indexOf("|") != -1)
+                                .sorted()
+                                .forEach(line -> {
+                                    try {
+                                        writer.write(line);
+                                        writer.newLine();
+                                        writer.newLine();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

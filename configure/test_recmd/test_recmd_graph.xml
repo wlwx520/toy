@@ -1,10 +1,23 @@
 <graph>
+    <head name="headNode"/>
     <http-node name="getTaskScore"
                url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
     <http-node name="checkAccessNew"
                url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.CheckAccessService//checkAccessNew"/>
+    <http-node name="getTaskScore2"
+               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+    <http-node name="getTaskScore3"
+               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+    <http-node name="getTaskScore4"
+               url="$PROPERTY[task-server]//api//com.zbj.task.controller.service.TaskObjectService//getTaskScore"/>
+    <tail name="tailNode"/>
 
     <link source="headNode" target="getTaskScore"/>
     <link source="getTaskScore" target="checkAccessNew"/>
-    <link source="checkAccessNew" target="tailNode"/>
+    <link source="checkAccessNew" target="getTaskScore2"/>
+    <link source="checkAccessNew" target="getTaskScore3"/>
+    <link source="checkAccessNew" target="getTaskScore4"/>
+    <link source="getTaskScore2" target="tailNode"/>
+    <link source="getTaskScore3" target="tailNode"/>
+    <link source="getTaskScore4" target="tailNode"/>
 </graph>
