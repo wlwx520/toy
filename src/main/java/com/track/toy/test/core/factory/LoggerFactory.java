@@ -65,15 +65,12 @@ public class LoggerFactory {
         String message;
         String path;
 
-        private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS  |  ");
-
         private void toWrite() {
             File file = new File(path);
             FileHelper.createDirAndFileIfNotExists(file);
 
-            String toWriteMessage = DATE_FORMAT.format(new Date()) + message;
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));) {
-                writer.write(toWriteMessage);
+                writer.write(message);
                 writer.newLine();
                 writer.newLine();
             } catch (UnsupportedEncodingException e) {
