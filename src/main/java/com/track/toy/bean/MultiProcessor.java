@@ -10,8 +10,8 @@ public class MultiProcessor<T> {
     private final IMultiProcessor<T> processor;
     private volatile boolean isEnd = false;
 
-    private static final CounterLock SELF_LOCK = new CounterLock();
-    private static final Object QUEUE_LOCK = new Object();
+    private  final CounterLock SELF_LOCK = new CounterLock();
+    private  final Object QUEUE_LOCK = new Object();
 
     public MultiProcessor(int capacity, int dealSize, IMultiProcessor<T> processor) {
         this.capacity = capacity;
