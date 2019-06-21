@@ -13,7 +13,7 @@ public class Test {
     public static void main(String[] args) {
         Constant.initExpression();
 
-        String array = "$COLLECT(/[123,1234,12345/]#)";
+//        String array = "$COLLECT(/[123,1234,12345/]#)";
 
         List<Item> items = new ArrayList<>();
         items.add(new Item("d1", 1, new SubItem("s1", 11)));
