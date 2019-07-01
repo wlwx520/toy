@@ -142,6 +142,8 @@ public class Graph<T, R extends Comparable<R>, K, E> {
             removeEdgeByKey(target.getKey());
         });
 
+        allNodes.remove(key);
+
         return key;
     }
 
