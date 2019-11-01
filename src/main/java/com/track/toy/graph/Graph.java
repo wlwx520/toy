@@ -2,11 +2,14 @@ package com.track.toy.graph;
 
 import com.track.toy.copy.BeanCopyUtil;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Graph<T, R extends Comparable<R>, K, E> {
+public class Graph<T, R extends Comparable<R>, K, E> implements Collection<T> {
     INodeKey<T, K> nodeKey;
     IEdgeKey<T, E> edgeKey;
     IEdgeRight<T, R> right;
@@ -266,6 +269,71 @@ public class Graph<T, R extends Comparable<R>, K, E> {
             resultNode.addSource(subSource);
             linkAncestors(source, subSource, descendantsNext, from);
         });
+    }
+
+    @Override
+    public int size() {
+        return allNodes.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return allNodes.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return allNodes.values().stream().map(Node::getData).collect(Collectors.toList()).contains(o);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return allNodes.values().stream().map(Node::getData).collect(Collectors.toList()).iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return allNodes.values().stream().map(Node::getData).collect(Collectors.toList()).toArray();
+    }
+
+    @Override
+    public <T1> T1[] toArray(T1[] a) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public boolean add(T t) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return allNodes.values().stream().map(Node::getData).collect(Collectors.toList()).containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new RuntimeException("not to support");
+    }
+
+    @Override
+    public void clear() {
+        throw new RuntimeException("not to support");
     }
 
     @FunctionalInterface

@@ -48,11 +48,11 @@ public class Node<T, R extends Comparable<R>, K, E> {
         targets.remove(target);
     }
 
-    Set<Edge<T, R, K, E>> getSources() {
+    public Set<Edge<T, R, K, E>> getSources() {
         return sources;
     }
 
-    Set<Edge<T, R, K, E>> getTargets() {
+    public Set<Edge<T, R, K, E>> getTargets() {
         return targets;
     }
 }
